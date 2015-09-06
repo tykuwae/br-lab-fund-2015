@@ -1,0 +1,84 @@
+
+;inicio do programa em 00F8
+0000 00F8
+;variável de saída (resultado)
+0002 0000
+;variável de entrada
+0004 0010
+
+;divisor
+0006 0000
+
+;constante 1
+0008 0001
+
+;counter
+000A 0001
+
+;constante 2
+000C 0002
+
+;Verifica entrada
+00F8 8004 ;carrega entrada no acc
+00FA 1122 ;se for ==0, pula pra rotina para saida receber FFFF
+00FC 2122 ;se for <0 pula para rotina para saida receber FFFF
+;divisor <= 2
+00FE A2E2 ;CALL divisorIgualA2()
+;
+0100 A1FE ;prime(A), onde A = counter
+0102 1112 ;se for == 0 ou seja, primo, JMP 0112
+;
+;Se nao for primo, o programa verifica se já está no último valor a ser verificado.
+0104 8004 ;acc <- var entrada
+0106 500A ;acc - counter
+0108 1120 ;se for == 0, JMP 0120
+;Caso contrario, atualiza o contador
+010A 800A ;acc <- counter
+010C 4008 ;acc ++
+010E 900A ;counter <- acc
+;O programa fica em loop até counter = varEntrada
+0110 00FE
+
+;incremento resultado
+0112 8002 ;acc <- resultado
+0114 4008 ;acc ++
+0116 9002 ;reultado <- acc
+0118 0104 ;volta pro main
+
+0120 C120 ;FIM
+
+;atribuição de FFFF em ACC e finalização do programa
+0122 3000 ;acc recebe 0000
+0124 5008 ;subtrai 1, agora acc tem FFFF
+0126 9002 ;saida recebe FFFF
+0128 0120 ;vai pro fim da função
+
+
+;Inicio da subrotina prime(A)
+01FE 0000
+0200 800A ;Coloca a variavel de entrada no acc
+0202 5008 ;subtrai 1
+0204 1216 ;se for 0 vai pra fim da subrotina, 1 NAO ENTRA NA CONTAGEM DE NUMERO PRIMO
+0206 800A ;
+0208 7006 ;Divide por um inteiro
+020A 6006 ;multiplica pela divisor
+020C 500A ;Subtrai acc do valor inicial
+020E 22F0 ;se for menor que 0, atualiza o divisor e volta para o função no topo
+0210 800A ;carrega no acc a variavel de entrada
+0212 5006 ;subtrai divisor do acc
+0214 1218 ;Se for igual a 0, devolve 0 ==> PRIMO
+0216 3001 ;Caso contrario, acc <- 1 ==> NAO PRIMO
+0218 B1FE ;fim da subrotina
+
+;subrotina divisorIgualA2()
+02E2 0000
+02E4 3002 ; acc <- 2
+02E6 9006 ; divisor <- 2
+02E8 B2E2 ; 
+
+;atualiza o divisor
+02F0 8006 ;acc <- divisor
+02F2 4008 ;acc ++
+02F4 9006 ;divisor <- acc
+02F6 0206 ;volta pra funcao
+
