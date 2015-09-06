@@ -1,0 +1,78 @@
+;inicio do programa
+0000 0200; programa inicia em 0200
+
+;r
+0002 0000
+
+;b
+0004 0002
+
+;inicio da lista aleatoria
+0006 0001 ;l[0]
+0008 0002 ;l[1]
+000A 0003 ;l[2]
+000C 0002 ;l[3]
+000E 0003 ;l[4]
+0010 0002 ;l[5]
+0012 FFFF ;l[6]
+;fim da lista aleatoria
+
+;R1
+0040 0000 
+;R2
+0042 0000
+
+;Constantes
+0044 FFFF
+0046 0001
+0048 0002
+
+0200 8004 ;acc <- b
+0202 9040 ;R1 <- acc
+0204 A2FE ;acc <- l[0], R2 <- l[0]
+0206 5044 ;acc - FFFF ;Verifica se eh FFFF
+0208 1FF0 ;if (acc==0) JMP 0FF0
+020A A30C ;CALL igual(R1,R2)
+020C 121A ;if (acc=0) JMP 021A
+020E 8F00 ;acc <- counter
+0210 4048 ;acc +2
+0212 9F00 ;counter <- acc
+0214 0204 ;Entra no loop
+
+
+021A A318 ;CALL acc++()
+021C 020E ;volta para o main
+
+;Inicio da subrotina de auto-modificação proxR2()
+02FE 0000 ;armazena o endereço de volta
+0300 8F00 ;Carrega F00 que contem o endereço do inicio da lista no acumulador
+0302 4F02 ;Prepara a função que ira carregar no acumulador
+0304 9306 ;Coloca a instrução para ser executada
+0306 0000 ;joga o resultado de 0F00 + 0F02 para o acumulador
+0308 9042 ;joga o valor do acumulador para o R2
+030A B2FE 
+;Fim da subrotina
+
+;Inicio da subrotina de igual(R1,R2)
+030C 0000
+030E 8040 ;joga no acumulador R1
+0310 5042 ;Subtrai de R2 no acumulador
+0312 1316 ;Desvio para o fim se acumulador for 0
+0314 3001 ;caso ACC != 0, ACC recebe 0001;
+0316 B30C 
+;fim da subrotina
+
+;Inicio da subrotina de incremento acc++()
+0318 0000
+031A 8002 ;Copio o resutado das ocorrencias de 0002 em ACC
+031C 4046 ;Somo 1 com o ACC
+031E 9002 ;Devolvo para 0002
+0320 B318
+;fim da subrotina
+
+;Counter
+0F00 0006 ;primeiro elemento da lista
+;Instruction
+0F02 8000 ;instrução para ser concatenada com 0f00
+
+0FF0 CFF0 ;FIM
