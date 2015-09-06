@@ -8,4 +8,6 @@ Laboratório de fundamentos, PCS2302
 
 
 
+http://nvie.com/posts/a-successful-git-branching-model/
+
 GG izi poli
