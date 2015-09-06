@@ -1,78 +1,114 @@
 ;inicio do programa
-0000 0200; programa inicia em 0200
+0000 XXXX; programa inicia em XXXX
+;índice de A (a ser usado para fins de codificação, não é o A, representa o "ponteiro")
+0002 0006
+;índice de B (a ser usado para fins de codificação, não é o B,representa o "ponteiro")
+0004 0008
+;6 e 8 estão hardcoded por corresponderem a A e B. Depois, serão mudados para A e C, e para B e C. A, B e C são os números da lista.
 
-;r
-0002 0000
+;inicio da lista de números
+0006 0001 ;A
+0008 0002 ;B
+000A 0003 ;C
+;fim da lista de números
 
-;b
-0004 0002
-
-;inicio da lista aleatoria
-0006 0001 ;l[0]
-0008 0002 ;l[1]
-000A 0003 ;l[2]
-000C 0002 ;l[3]
-000E 0003 ;l[4]
-0010 0002 ;l[5]
-0012 FFFF ;l[6]
-;fim da lista aleatoria
-
-;R1
+;resultado da rotina menor (A,B)
 0040 0000 
-;R2
+;registro atemp (conteúdo no índice A) utilizado para fins temporários, na rotina troca(A,B)
 0042 0000
-
-;Constantes
-0044 FFFF
+;registro btemp (conteúdo no índice B) utilizado para fins temporários, na rotina troca(A,B)
+aaaa 0000
+;Constantes utilizadas para auto-modificação.
+0044 000A
 0046 0001
 0048 0002
+ 
+;***************************************************************************************************
+;início do programa propriamente dito
+XXXX 8004 ;chamar menor(a,b)
+BBBB 8004 ;resultado rotina menor para acumulador
+BBBB 8004 ;desvia se acumulador = 0 para chamada da troca (a,b)
+BBBB 8004 ;índice do A para o acumulador
+BBBB 8004 ;chama soma2 no índicedoacumulador
+BBBB 8004 ;índice do B para o acumulador
+BBBB 8004 ;chama soma2 no índicedoacumulador 
+BBBB 8004 ;chamar menor(a,b)
+BBBB 8004 ;resultado rotina menor para acumulador
+BBBB 8004 ;desvia se acumulador = 0 para chamada da troca (a,b)
+BBBB 8004 ;índice do A para o acumulador
+BBBB 8004 ;subtrai 2 do acumulador
+BBBB 8004 ;acumulador para o A
+BBBB 8004 ;chamar menor(a,b)
+BBBB 8004 ;resultado rotina menor para acumulador
+BBBB 8004 ;desvia se acumulador = 0 para chamada da troca (a,b)
 
-0200 8004 ;acc <- b
-0202 9040 ;R1 <- acc
-0204 A2FE ;acc <- l[0], R2 <- l[0]
-0206 5044 ;acc - FFFF ;Verifica se eh FFFF
-0208 1FF0 ;if (acc==0) JMP 0FF0
-020A A30C ;CALL igual(R1,R2)
-020C 121A ;if (acc=0) JMP 021A
-020E 8F00 ;acc <- counter
-0210 4048 ;acc +2
-0212 9F00 ;counter <- acc
-0214 0204 ;Entra no loop
+;final do programa.
+;***************************************************************************************************
+
+CCCC AAAA ;chamada da troca (a,b)
+CCCC 020E ;volta para o main - COMO VOLTAR?
+
+CCCC AAAA ;chamada da soma2(a)
+CCCC 020E ;volta para o main - COMO VOLTAR?
+
+;***************************************************************************************************
+;início da subrotina de auto-modificação soma2
+DDDD SSSS ;armazena o endereço de volta
+
+DDDD SSSS ;encerra a subrotina
+;final da subrotina de auto-modificação soma2
+;***************************************************************************************************
+;início da subrotina de automodificação troca(a,b)
+DDDD SSSS ;armazena o endereço de volta
+DDDD SSSS ;MEMÓRIA REGISTRO DE A PARA ACUMULADOR
+DDDD SSSS ;SOMA CONSTANTE 8000 NO ACUMULADOR
+DDDD SSSS ;ACUMULADOR PARA MEMÓRIA SEGUINTE
+MEMSG AAAA; (O RESULTADO, pega o que está dentro do ponteiro e joga no acumulador)
+DDDD SSSS ;ACUMULADOR PARA MEMÓRIA atemp
+DDDD SSSS ;MEMÓRIA REGISTRO DE B PARA ACUMULADOR
+DDDD SSSS ;SOMA CONSTANTE 8000 NO ACUMULADOR
+DDDD SSSS ;ACUMULADOR PARA MEMÓRIA SEGUINTE
+MEMSG AAAA; (O RESULTADO, pega o que está dentro do ponteiro e joga no acumulador)
+DDDD SSSS ;
 
 
-021A A318 ;CALL acc++()
-021C 020E ;volta para o main
+DDDD SSSS ;encerra a subrotina
+;final da subrotina de automodificação troca(a,b)
+;***************************************************************************************************
+;início da subrotina de auto-modificação menor(a,b)
+DDDD SSSS ;armazena o endereço de volta
+DDDD SSSS ;B para o acumulador
+DDDD SSSS ;subtrai a do acumulador
+DDDD SSSS ;desvio se acumulador negativo para chamada da resultado 0
 
-;Inicio da subrotina de auto-modificação proxR2()
-02FE 0000 ;armazena o endereço de volta
-0300 8F00 ;Carrega F00 que contem o endereço do inicio da lista no acumulador
-0302 4F02 ;Prepara a função que ira carregar no acumulador
-0304 9306 ;Coloca a instrução para ser executada
-0306 0000 ;joga o resultado de 0F00 + 0F02 para o acumulador
-0308 9042 ;joga o valor do acumulador para o R2
-030A B2FE 
-;Fim da subrotina
 
-;Inicio da subrotina de igual(R1,R2)
-030C 0000
-030E 8040 ;joga no acumulador R1
-0310 5042 ;Subtrai de R2 no acumulador
-0312 1316 ;Desvio para o fim se acumulador for 0
-0314 3001 ;caso ACC != 0, ACC recebe 0001;
-0316 B30C 
-;fim da subrotina
+DDDD SSSS ;encerra a subrotina
+;final da subrotina de auto-modificação menor(a,b)
+;***************************************************************************************************
 
-;Inicio da subrotina de incremento acc++()
-0318 0000
-031A 8002 ;Copio o resutado das ocorrencias de 0002 em ACC
-031C 4046 ;Somo 1 com o ACC
-031E 9002 ;Devolvo para 0002
-0320 B318
-;fim da subrotina
+;***************************************************************************************************
+;início da subrotina de auto-modificação resultado0
+DDDD SSSS ;armazena o endereço de volta
+DDDD SSSS ;carrega 0 para o acumulador
+DDDD SSSS ;acumulador para resultado
+DDDD SSSS ;final da subrotina
+;final da subrotina de auto-modificação resultado0
+;***************************************************************************************************
 
+;***************************************************************************************************
+;início da subrotina de auto-modificação resultado1
+DDDD SSSS ;armazena o endereço de volta
+DDDD SSSS ;carrega 1 para o acumulador
+DDDD SSSS ;acumulador para resultado
+DDDD SSSS ;final da subrotina
+;final da subrotina de auto-modificação resultado1
+;***************************************************************************************************
+
+
+ 
 ;Counter
 0F00 0006 ;primeiro elemento da lista
 ;Instruction
 0F02 8000 ;instrução para ser concatenada com 0f00
 
-0FF0 CFF0 ;FIM
+0FF0 CFF0 ;Fim do programa
