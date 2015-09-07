@@ -1,9 +1,7 @@
 ;inicio do programa
-0000 XXXX; programa inicia em XXXX
-;índice de A (a ser usado para fins de codificação, não é o A, representa o "ponteiro")
-0002 0006
-;índice de B (a ser usado para fins de codificação, não é o B,representa o "ponteiro")
-0004 0008
+0000 0018; programa inicia em 0018
+0002 0006; índice de A (a ser usado para fins de codificação, não é o A, representa o "ponteiro")
+0004 0008; índice de B (a ser usado para fins de codificação, não é o B,representa o "ponteiro")
 ;6 e 8 estão hardcoded por corresponderem a A e B. Depois, serão mudados para A e C, e para B e C. A, B e C são os números da lista.
 
 ;inicio da lista de números
@@ -13,102 +11,99 @@
 ;fim da lista de números
 
 ;resultado da rotina menor (A,B)
-0040 0000 
+000C 0000 
 ;registro atemp (conteúdo no índice A) utilizado para fins temporários, na rotina troca(A,B)
-0042 0000
+000E 0000
 ;registro btemp (conteúdo no índice B) utilizado para fins temporários, na rotina troca(A,B)
-aaaa 0000
+0010 0000
 ;Constantes utilizadas para auto-modificação.
-0044 000A
-0046 0001
-0048 0002
+0012 000A
+0014 0001
+0016 0002
  
 ;***************************************************************************************************
 ;início do programa propriamente dito
-XXXX 8004 ;chamar menor(a,b)
-BBBB 8004 ;resultado rotina menor para acumulador
-BBBB 8004 ;desvia se acumulador = 0 para chamada da troca (a,b)
-BBBB 8004 ;índice do A para o acumulador
-BBBB 8004 ;chama soma2 no índicedoacumulador
-BBBB 8004 ;índice do B para o acumulador
-BBBB 8004 ;chama soma2 no índicedoacumulador 
-BBBB 8004 ;chamar menor(a,b)
-BBBB 8004 ;resultado rotina menor para acumulador
-BBBB 8004 ;desvia se acumulador = 0 para chamada da troca (a,b)
-BBBB 8004 ;índice do A para o acumulador
-BBBB 8004 ;subtrai 2 do acumulador
-BBBB 8004 ;acumulador para o A
-BBBB 8004 ;chamar menor(a,b)
-BBBB 8004 ;resultado rotina menor para acumulador
-BBBB 8004 ;desvia se acumulador = 0 para chamada da troca (a,b)
+0018 A060 ;chamar menor(a,b)
+001A 800C ;resultado rotina menor para acumulador
+001C 103C ;desvia se acumulador = 0 para chamada da troca (a,b)
+001E 8002 ;índice do A para o acumulador
+0020 4016 ;soma 2 no acumulador, a partir da constante 0016
+0022 9002 ;acumulador para índice A
+0024 8004 ;índice do B para o acumulador
+0026 4016 ;soma 2 no acumulador, a partir da constante 0016
+0028 9004 ;acumulador para índice B
+002A A060 ;chamar menor(a,b)
+002C 800C ;resultado rotina menor para acumulador
+002E 103C ;desvia se acumulador = 0 para chamada da troca (a,b)
+0030 8002 ;índice do A para o acumulador
+0032 5016 ;subtrai 2 do acumulador, a partir da constante 0016
+0034 9002 ;acumulador para o A
+0036 A060 ;chamar menor(a,b)
+0038 800C ;resultado rotina menor para acumulador
+003A 103C ;desvia se acumulador = 0 para chamada da troca (a,b)
 
 ;final do programa.
 ;***************************************************************************************************
 
-CCCC AAAA ;chamada da troca (a,b)
-CCCC 020E ;volta para o main - COMO VOLTAR?
+003C A048 ;chamada da troca (a,b)
+003E XXXX ;volta para o main - COMO VOLTAR?
 
-CCCC AAAA ;chamada da soma2(a)
-CCCC 020E ;volta para o main - COMO VOLTAR?
+0040 AAAA ;chamada da soma2(a)
+0042 020E ;volta para o main - COMO VOLTAR?
 
 ;***************************************************************************************************
 ;início da subrotina de auto-modificação soma2
-DDDD SSSS ;armazena o endereço de volta
+0044 SSSS ;armazena o endereço de volta
 
-DDDD SSSS ;encerra a subrotina
+0046 SSSS ;encerra a subrotina
 ;final da subrotina de auto-modificação soma2
 ;***************************************************************************************************
+
+
+
 ;início da subrotina de automodificação troca(a,b)
-DDDD SSSS ;armazena o endereço de volta
-DDDD SSSS ;MEMÓRIA REGISTRO DE A PARA ACUMULADOR
-DDDD SSSS ;SOMA CONSTANTE 8000 NO ACUMULADOR
-DDDD SSSS ;ACUMULADOR PARA MEMÓRIA SEGUINTE
-MEMSG AAAA; (O RESULTADO, pega o que está dentro do ponteiro e joga no acumulador)
-DDDD SSSS ;ACUMULADOR PARA MEMÓRIA atemp
-DDDD SSSS ;MEMÓRIA REGISTRO DE B PARA ACUMULADOR
-DDDD SSSS ;SOMA CONSTANTE 8000 NO ACUMULADOR
-DDDD SSSS ;ACUMULADOR PARA MEMÓRIA SEGUINTE
-MEMSG AAAA; (O RESULTADO, pega o que está dentro do ponteiro e joga no acumulador)
-DDDD SSSS ;
-
-
-DDDD SSSS ;encerra a subrotina
+0048 SSSS ;armazena o endereço de volta
+004A 8002 ;MEMÓRIA REGISTRO DE A PARA ACUMULADOR
+004C 4078 ;SOMA CONSTANTE 8000 NO ACUMULADOR
+004E 9050 ;ACUMULADOR PARA MEMÓRIA SEGUINTE (literalmente a que está embaixo)
+0050 0000; (O RESULTADO, pega o que está dentro do ponteiro e joga no acumulador)
+0052 900E ;ACUMULADOR PARA MEMÓRIA atemp
+0054 8004 ;MEMÓRIA REGISTRO DE B PARA ACUMULADOR
+0056 4078 ;SOMA CONSTANTE 8000 NO ACUMULADOR
+0058 905A ;ACUMULADOR PARA MEMÓRIA SEGUINTE
+005A 0000 ; (O RESULTADO, pega o que está dentro do ponteiro e joga no acumulador)
+005C B048 ;Fim de rotina, volta para o início.
 ;final da subrotina de automodificação troca(a,b)
+
+
+
 ;***************************************************************************************************
 ;início da subrotina de auto-modificação menor(a,b)
-DDDD SSSS ;armazena o endereço de volta
-DDDD SSSS ;B para o acumulador
-DDDD SSSS ;subtrai a do acumulador
-DDDD SSSS ;desvio se acumulador negativo para chamada da resultado 0
-
-
-DDDD SSSS ;encerra a subrotina
+0060 SSSS ;armazena o endereço de volta
+0062 3001 ;carrega 1 no acumulador
+0064 900C ;acumulador para o resultado
+0066 8004 ;B para o acumulador
+0068 5002 ;subtrai a do acumulador
+006A 208A ;desvio se acumulador negativo para chamada da resultado 0
+006C B060 ;encerra a subrotina
 ;final da subrotina de auto-modificação menor(a,b)
 ;***************************************************************************************************
 
 ;***************************************************************************************************
 ;início da subrotina de auto-modificação resultado0
-DDDD SSSS ;armazena o endereço de volta
-DDDD SSSS ;carrega 0 para o acumulador
-DDDD SSSS ;acumulador para resultado
-DDDD SSSS ;final da subrotina
+006E SSSS ;armazena o endereço de volta
+0070 3000 ;carrega 0 para o acumulador
+0072 900C ;acumulador para resultado
+0074 B06E ;final da subrotina
 ;final da subrotina de auto-modificação resultado0
 ;***************************************************************************************************
-
-;***************************************************************************************************
-;início da subrotina de auto-modificação resultado1
-DDDD SSSS ;armazena o endereço de volta
-DDDD SSSS ;carrega 1 para o acumulador
-DDDD SSSS ;acumulador para resultado
-DDDD SSSS ;final da subrotina
-;final da subrotina de auto-modificação resultado1
-;***************************************************************************************************
-
-
- 
+  
 ;Counter
-0F00 0006 ;primeiro elemento da lista
+0076 0006 ;primeiro elemento da lista
 ;Instruction
-0F02 8000 ;instrução para ser concatenada com 0f00
+0078 8000 ;instrução para ser concatenada com 0f00
+
+008A AAAA ;chamada da resultado0
+008C 020E ;volta para o main - COMO VOLTAR?
 
 0FF0 CFF0 ;Fim do programa
