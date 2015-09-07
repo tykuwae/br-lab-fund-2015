@@ -49,7 +49,7 @@
 003E XXXX ;volta para o main - COMO VOLTAR?
 
 0040 AAAA ;chamada da soma2(a)
-0042 020E ;volta para o main - COMO VOLTAR?
+0042 XXXX ;volta para o main - COMO VOLTAR?
 
 ;***************************************************************************************************
 ;início da subrotina de auto-modificação soma2
@@ -103,7 +103,7 @@
 ;Instruction
 0078 8000 ;instrução para ser concatenada com 0f00
 
-008A AAAA ;chamada da resultado0
-008C 020E ;volta para o main - COMO VOLTAR?
+008A A06E ;chamada da resultado0
+008C 006C ;volta para o main - Volta para a chamada na menor(a,b)
 
 0FF0 CFF0 ;Fim do programa
