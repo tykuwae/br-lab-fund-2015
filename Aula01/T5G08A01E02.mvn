@@ -1,0 +1,118 @@
+;inicio do programa
+0000 0018; programa inicia em 0018
+
+;inicio da lista de números
+0006 0003 ;l[0]
+0008 0002 ;l[1]
+000A 0001 ;l[2]
+;fim da lista de números
+
+;a1 - Armazena endereço de um item da lista
+000E 0000
+;b1 - Armazena endereço de um item posterior da lista
+0010 0000
+
+;Ponteiros que sofrerão a auto-modificação
+0012 0006 ;aponta para o um endereço de um item da lista (eg. *l[0,1,2])
+0014 0008 ;aponta para o um endereço de um item posterio da lista (*l[1,2])
+
+;Constantes
+0016 0002 ;2
+ 
+;************************************
+; ---> início do programa propriamente dito <--- ;
+
+;inicializa a1 com endereço de A
+0018 8012 ;acc <- *l[0]
+001A 900E ;a1 <- acc, salvo um endereço
+001C 8014 ;acc <- *l[1]
+001E 9010 ;b1 <- acc
+0020 9014 ;salvo no segundo elemento da lista
+0022 A060 ;Chama menor(a1,b1)
+0024 1028 ;se acc == 0, pula a subrotina de troca
+0026 A100
+;atualiza b1 
+0028 8014 ;end do segundo elemento da lista no acc
+002A 4016 ;SOMA 2
+002C 9014 ;atualiza o 2 elemtno da lista
+002E 9010 ;atualiza b1
+0030 A060 ;chama menor(a1,b1)
+0032 1036 ;se acc == 0, pula a subrotina de troca
+0034 A100
+;atualiza a1
+0036 8012 ;acc <- a1
+0038 4016 ;soma 2
+003A 900E ;devolve para primeiro el da lista
+003C A060 ;chama menor(a1,b1)
+003E 1042 ;se acc == 0, pula a subrotina de troca
+0040 A100
+0042 C03C
+
+0058 0000 ;TEMP B para armazenar o conteudo de b1
+005A 9000 ;instrucao de escrita
+005C 8000 ;instrucao de leitura
+005E 0000 ;TEMP A para armazenar o conteudo de a1
+
+;************************************
+;início da subrotina de auto-modificação menor(a1,b1), eg a1 <- *a e b1 <- *b
+0060 0000 ;armazena o endereço de volta
+0062 800E ;carrega a1 no acumulador
+0064 405C ;soma instrucao
+0066 9068 ;escreve na memoria de baixo a instrução pra ler memoria
+0068 0000 ;acc <- conteudo de a
+006A 905E ;armazena temp A <- a
+006C 8010 ;carrega b1 no acumulador
+006E 405C ;soma instrucao
+0070 9072 ;escreve na memoria de baixo a instrução pra ler memoria
+0072 0000 ;acc <- conteudo de b
+0074 9058 ;armazena temp B<- b
+0076 805E ;carrega acc <- Temp A
+0078 2082 ;se temp A for negativo, faz b - (- a)
+007A 8058 ;carregar b de volta para acc
+007C 505E ;b - a
+007E 0084 ;pula a instrucao de baixo
+0080 8058 ;carregar b de volta pra acc
+0082 405E ;b - (-a) = b + a
+0084 208A ;se for menor que 0, JMP 007A
+0086 3000 ;se a<b ou b=a, acc <- 0
+0088 008C ;JMP fim
+008A 3001 ;se a>b, acc <-1
+008C B060 ;fim 
+
+;final da subrotina de auto-modificação menor(a,b)
+;************************************
+
+;subrotina de troca(a1,b1)
+0100 0000 ;armazena o endereço de volta
+0102 800E ;carrega a1 no acumulador
+0104 405C ;soma instrucao
+0106 9108 ;escreve na memoria de baixo a instrução pra ler memoria
+0108 0000 ;instrucao de acc <- conteudo de a
+010A 905E ;armazena temp A <- a
+010C 8010 ;carrega b1 no acumulador
+010E 405C ;soma instrucao
+0110 9112 ;escreve na memoria de baixo a instrução pra ler memoria
+0112 0000 ;instrucao de acc <- conteudo de b
+0114 9058 ;TEMP B <- acc 
+0116 800E ;acc <- endereco de a
+0118 405A ;instrucao de escrita
+011A 9150 ;guarda instrucao em um temp de escrita
+011C 8058 ;carrega acc <- TEMP B com o valor a ser trocado
+011E A14E ;vai pra linha que executa a instrucao de escrita
+0120 8010 ;carrega acc <- endereco b
+0122 405A 
+0124 9150 ;guarda instr em temp de escrita
+0126 805E ;carrega acc <- TEMP A com o valor a ser trocado
+0128 A14E ;
+012A B100 ;FIM
+
+;final da subrotina de troca(a1,b1)
+;************************************
+
+;************************************
+;subrotina de escrita
+014E 0000 
+0150 0000 ;Instrucao de escrita que será automodificada
+0152 B14E ;volta pra subrotina
+;final da subrotina de escrita
+;************************************
