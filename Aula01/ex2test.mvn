@@ -1,0 +1,180 @@
+;inicio do programa
+0000 0018; programa inicia em 0018
+0002 0006; índice de A (a ser usado para fins de codificação, não é o A, representa o "ponteiro")
+0004 0008; índice de B (a ser usado para fins de codificação, não é o B,representa o "ponteiro")
+;6 e 8 estão hardcoded por corresponderem a A e B. Depois, serão mudados para A e C, e para B e C. A, B e C são os números da lista.
+
+;inicio da lista de números
+0006 00FF ;A
+0008 00FC ;B
+000A 000A ;C
+;fim da lista de números
+
+;resultado da rotina menor (A,B)
+000C 0000 
+;a1
+000E 0000
+;b1
+0010 0000
+;Constantes utilizadas para auto-modificação.
+0012 0006 ;primeiro elemento da lista
+;memoria para elemento seguinte
+0014 0008 ;elemento seguinte
+;2
+0016 0002
+ 
+;***************************************************************************************************
+; ---> início do programa propriamente dito <--- ;
+;inicializa a1 com endereço de A
+0018 8012 ;acc <- *A
+001A 900E ;a1 <- acc, salvo primeiro elemtno da lista
+001C 8014 ;elemento seguiunte no acc
+001E 9010 ;b1 <- acc
+0020 9014 ;salvo no segundo elemento da lista
+0022 A060 ;Chama menor(a1,b1)
+0024 1040 ;se acc == 0, vai pra subrotina de troca
+;atualiza b1 
+0026 8014 ;end do segundo elemento da lista no acc
+0028 4016 ;SOMA 2
+002A 9014 ;atualiza o 2 elemtno da lista
+002C 9010 ;atualiza b1
+002E A060 ;chama menor(a1,b1)
+0030 1044 ;se acc == 0, vai pra subrotina de troca
+;atualiza a1
+0032 8012 ;acc <- a1
+0034 4016 ;soma 2
+0036 900E ;devolve para primeiro el da lista
+0038 A060 ;chama menor(a1,b1)
+003A 1048 ;se acc == 0, vai pra subrotina de troca
+003C C03C
+
+
+
+
+0040 A100 ;subrotina de troca(a1,b1)
+0042 0026 ;volta pra funcao
+
+0044 A100 ;subrotina de troca(a1,b1)
+0046 0032 ;volta pra funcao
+
+0048 A100 ;subrotina de troca(a1,b1)
+004A 003C ;volta pra funcao
+
+; 0024 8004 ;índice do B para o acumulador
+; 0026 4016 ;soma 2 no acumulador, a partir da constante 0016
+; 0028 9004 ;acumulador para índice B
+; 002A A060 ;chamar menor(a,b)
+; 002C 800C ;resultado rotina menor para acumulador
+; 002E 103C ;desvia se acumulador = 0 para chamada da troca (a,b)
+; 0030 8002 ;índice do A para o acumulador
+; 0032 5016 ;subtrai 2 do acumulador, a partir da constante 0016
+; 0034 9002 ;acumulador para o A
+; 0036 A060 ;chamar menor(a,b)
+; 0038 800C ;resultado rotina menor para acumulador
+; 003A 103C ;desvia se acumulador = 0 para chamada da troca (a,b)
+
+; ;final do programa.
+; ;***************************************************************************************************
+
+; 003C A048 ;chamada da troca (a,b)
+; 003E XXXX ;volta para o main - COMO VOLTAR?
+
+; 0040 AAAA ;chamada da soma2(a)
+; 0042 XXXX ;volta para o main - COMO VOLTAR?
+
+; ;***************************************************************************************************
+; ;início da subrotina de auto-modificação soma2
+; 0044 SSSS ;armazena o endereço de volta
+
+; 0046 SSSS ;encerra a subrotina
+; ;final da subrotina de auto-modificação soma2
+; ;***************************************************************************************************
+
+
+
+; ;início da subrotina de automodificação troca(a,b)
+; 0048 SSSS ;armazena o endereço de volta
+; 004A 8002 ;MEMÓRIA REGISTRO DE A PARA ACUMULADOR
+; 004C 4078 ;SOMA CONSTANTE 8000 NO ACUMULADOR
+; 004E 9050 ;ACUMULADOR PARA MEMÓRIA SEGUINTE (literalmente a que está embaixo)
+; 0050 0000; (O RESULTADO, pega o que está dentro do ponteiro e joga no acumulador)
+; 0052 900E ;ACUMULADOR PARA MEMÓRIA atemp
+; 0054 8004 ;MEMÓRIA REGISTRO DE B PARA ACUMULADOR
+; 0056 4078 ;SOMA CONSTANTE 8000 NO ACUMULADOR
+; 0058 905A ;ACUMULADOR PARA MEMÓRIA SEGUINTE
+; 005A 0000 ; (O RESULTADO, pega o que está dentro do ponteiro e joga no acumulador)
+; 005C B048 ;Fim de rotina, volta para o início.
+; ;final da subrotina de automodificação troca(a,b)
+
+0058 0000 ;TEMP B
+005A 9000 ;instrucao de escrita
+005C 8000 ;instrucao de leitura
+005E 0000 ;TEMP A
+;***************************************************************************************************
+;início da subrotina de auto-modificação menor(a1,b1), eg a1 <- *a e b1 <- *b
+0060 0000 ;armazena o endereço de volta
+0062 800E ;carrega a1 no acumulador
+0064 405C ;soma instrucao
+0066 9068 ;escreve na memoria de baixo a instrução pra ler memoria
+0068 0000 ;acc <- conteudo de a
+006A 905E ;armazena temp <- a
+006C 8010 ;carrega b1 no acumulador
+006E 405C ;soma instrucao
+0070 9072 ;escreve na memoria de baixo a instrução pra ler memoria
+0072 0000 ;acc <- conteudo de b
+0074 505E ;b - a
+0076 207C ;se for menor que 0, JMP 007A
+0078 3001 ;se a<b ou b=a, acc <- 1
+007A 007E ;JMP fim
+007C 3000 ;se a>b, acc <-0
+007E B060 ;fim 
+
+;final da subrotina de auto-modificação menor(a,b)
+;***************************************************************************************************
+
+;subrotina de troca
+0100 0000 ;armazena o endereço de volta
+0102 800E ;carrega a1 no acumulador
+0104 405C ;soma instrucao
+0106 9108 ;escreve na memoria de baixo a instrução pra ler memoria
+0108 0000 ;instrucao de acc <- conteudo de a
+010A 905E ;armazena temp A <- a
+010C 8010 ;carrega b1 no acumulador
+010E 405C ;soma instrucao
+0110 9112 ;escreve na memoria de baixo a instrução pra ler memoria
+0112 0000 ;instrucao de acc <- conteudo de b
+0114 9058 ;TEMP B <- acc 
+0116 800E ;acc <- endereco de a
+0118 405A ;instrucao de escrita
+011A 9150 ;guarda instrucao em um temp de escrita
+011C 8058 ;carrega acc <- TEMP B com o valor a ser trocado
+011E A14E ;vai pra linha que executa a instrucao de escrita
+0120 8010 ;carrega acc <- endereco b
+0122 405A 
+0124 9150 ;guarda instr em temp de escrita
+0126 805E ;carrega acc <- TEMP A com o valor a ser trocado
+0128 A14E ;
+012A B100
+
+014E 0000
+0150 0000 ;Instrucao de escrita
+0152 B14E ;volta pra subrotina
+
+; ;***************************************************************************************************
+; ;início da subrotina de auto-modificação resultado0
+; 006E SSSS ;armazena o endereço de volta
+; 0070 3000 ;carrega 0 para o acumulador
+; 0072 900C ;acumulador para resultado
+; 0074 B06E ;final da subrotina
+; ;final da subrotina de auto-modificação resultado0
+; ;***************************************************************************************************
+  
+; ;Counter
+; 0076 0006 ;primeiro elemento da lista
+; ;Instruction
+; 0078 8000 ;instrução para ser concatenada com 0f00
+
+; 008A A06E ;chamada da resultado0
+; 008C 006C ;volta para o main - Volta para a chamada na menor(a,b)
+
+; 0FF0 CFF0 ;Fim do programa
