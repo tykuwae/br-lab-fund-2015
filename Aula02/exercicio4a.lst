@@ -1,0 +1,74 @@
+				;	@ /0000             ;Inicio do programa
+0000 003a		;	main  JP  inicio    ;Jump para o inicio do programa
+0002 0000		;	resposta  $  /0001  ;Resposta   0
+				;	resposta  $  /0001  ;Resposta
+0004 7661		;	string1   K  'va
+0006 6963		;	          K  'ic
+0008 6f6d		;	          K  'om
+000a 6665		;	          K  'fe
+000c 0000		;	          K  /0000
+000e 0000		;	          K  /0000
+0010 0000		;	          K  /0000
+0012 0000		;	          K  /0000
+0014 7661		;	string2   K  'va
+0016 6963		;	          K  'ic
+0018 6f61		;	          K  'oa
+001a 6665		;	          K  'fe
+001c 0000		;	          K  /0000
+001e 0000		;	          K  /0000
+0020 0000		;	          K  /0000
+0022 0000		;	          K  /0000 ;24
+0024 0000		;	A1        $  /0001 ;26    0
+				;	A1        $  /0001 ;26 
+0026 0000		;	B1        $  /0001 ;28          0
+				;	B1        $  /0001 ;28       
+0028 0000		;	A10       $  /0001   0
+				;	A10       $  /0001
+002a 0000		;	B10       $  /0001   0
+				;	B10       $  /0001
+002c 0000		;	temp      $  /0001   0
+				;	temp      $  /0001
+002e 0000		;	sUnpackA  $  /0001  ;2C   0
+				;	sUnpackA  $  /0001  ;2C
+0030 0000		;	sUnpackB  $  /0001  ;2E      0
+				;	sUnpackB  $  /0001  ;2E   
+0032 0000		;	count     $  /0001    0
+				;	count     $  /0001 
+
+;Constants
+0034 0100		;	cemH      K  /0100
+0036 0010		;	dezH      K  /0010
+0038 ff00		;	corr      K  /FF00
+
+003a 8004		;	inicio    LD string1 ;Carreg primeira palavra da string1 no acc
+003c 1048		;	          JZ fim     ;se for 0, fim
+003e a04a		;	          SC UNPACK   ;chama surotina unpack()
+0040 802e		;	          LD sUnpackA
+0042 9024		;	          MM A1
+0044 8030		;	          LD sUnpackB
+0046 9026		;	          MM B1
+
+
+
+
+0048 c048		;	fim       HM fim
+
+004a 0000		;	UNPACK    $  /0001   0
+				;	UNPACK    $  /0001
+004c 902c		;	          MM temp   ;guarda no temp
+004e 6034		;	          *  cemH    ;shift de 2 bytes para esquerda
+0050 7034		;	          /  cemH    ;shift de 2 bytes para direita
+0052 2058		;	          JN casoNeg ;caso negativo jmp para casoNEG
+0054 9030		;	          MM sUnpackB
+0056 005c		;	          JP parteA ;continua para pegar a primeira parte da palavra
+0058 5038		;	casoNeg   - corr
+005a 9030		;	          MM sUnpackB
+005c 802c		;	parteA    LD temp
+005e 5030		;	          - sUnpackB
+0060 7034		;	          / cemH
+0062 2068		;	          JN casoNeg2 ;caso negativo
+0064 902e		;	          MM sUnpackA
+0066 006c		;	          JP fimSubRotina
+0068 5038		;	casoNeg2  - corr
+006a 902e		;	          MM sUnpackA
+006c b04a		;	fimSubRotina RS UNPACK

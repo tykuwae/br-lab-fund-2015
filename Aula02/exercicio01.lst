@@ -1,0 +1,16 @@
+				;	@ /0000             ;Inicio do programa
+0000 000a		;	main  JP  inicio    ;Jump para o inicio do programa
+0002 00fa		;	entradaA  K  /00FA  ;Entrada A
+0004 00ff		;	entradaB  K  /00FF  ;Entrada B
+0006 0000		;	saida     $  /0001  ;Endereço de saida   0
+				;	saida     $  /0001  ;Endereço de saida
+0008 0100		;	cem       K  /0100  ;100 constante
+000a a010		;	inicio    SC PACK   ;chama surotina pack(a,b)
+000c 9006		;	          MM saida  ;guarda o resultado da subrotina
+000e c00e		;	fim       HM fim
+0010 0000		;	PACK      $ /0001   0
+				;	PACK      $ /0001
+0012 8002		;	          LD  entradaA ; carrega entradaA
+0014 6008		;	          *  cem    ; multiplca por cem
+0016 4004		;	          +  entradaB
+0018 b010		;	          RS PACK
