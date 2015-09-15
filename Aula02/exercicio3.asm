@@ -1,19 +1,25 @@
 @ /0000
 main JP inicio
-numeroDeBytes K /0006
+numeroDeBytes K /0003
 origem  K /0008    ;ponteiro do origem
-destino K /0016    ;ponteiro do destino
-
-        K /81A0
-        K /151C
-        K /B2AA  
-memDest $ /0022
+destino K /0010    ;ponteiro do destino
+;Memoria reservada para os bytes
+        K /0001
+        K /0002
+        K /0003
+        K /0004
+        K /ffff
+        K /ffff
+        K /ffff
+        K /ffff
+memDest $ /0010
 
 ;variaveis do programa
 contador                $ /0001
 conteudoImpar           $ /0001
 conteudoSendoMovido     $ /0001
 EndSendoMovido          $ /0001
+resultado               $ /0001
 
 ;variaveis da funcao UNPACK
 temp      $  /0001
@@ -26,12 +32,18 @@ AmDownload k /9000
 
 ;Constants
 um        K  /0001
+zero      K  /0000
+fs        K  /ffff
 dois      K  /0002
 cemH      K  /0100
 dezH      K  /0010
 corr      K  /FF00
 
-inicio    LD numeroDeBytes
+inicio    SC MEMCOPY
+fim       HM fim
+
+MEMCOPY   $ /0001
+          LD numeroDeBytes
 loop      MM contador
           LD contador
           - dois
@@ -43,8 +55,8 @@ proxInstr $ /0001
           MM conteudoSendoMovido
           LD contador
           JN unpackUmByte
-          LD AmDownload ;9000
-          + destino ;0010
+          LD AmDownload
+          + destino
           MM proxInstr2
           LD conteudoSendoMovido ;conteudo
 proxInstr2 $ /0001
@@ -58,7 +70,7 @@ proxInstr2 $ /0001
           ;verificar numero par de bytes
           LD contador
           + dois
-          JZ fim
+          JZ endMEMCOPY
           - dois
           JP loop
 
@@ -72,9 +84,10 @@ unpackUmByte  LD conteudoSendoMovido
               MM proxInstr3
               LD conteudoImpar ;conteudo
 proxInstr3    $ /0001
-              JP fim
+              JP endMEMCOPY
 
-fim    HM fim
+endMEMCOPY    RS MEMCOPY
+
 
 UNPACK    $  /0001
           MM temp   ;guarda no temp
