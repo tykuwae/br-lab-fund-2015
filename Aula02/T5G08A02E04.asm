@@ -1,10 +1,10 @@
 @ /0000             ;Inicio do programa
 main  JP  inicio    ;Jump para o inicio do programa
 count  $  /0001  ;Resposta
-string1   K  /0000
+string1   K  'va
           K  'ic
-          K  'om
-          K  /6665
+          K  'oa
+          K  /6600
           K  /0000
           K  /0000
           K  /0000
@@ -38,8 +38,13 @@ AmLoad    K  /8000
 AmEnd1    K  string1
 AmEnd2    K  string2 
 
-    
-inicio    LD AmEnd1 ;Pega primeiro elemento
+; ****** INICIO DO PROGRAMA ****** ;
+inicio    SC STRCMP
+fim       HM fim
+; ****** FIM DO PROGRAMA ****** ;
+
+STRCMP    $  /0001
+          LD AmEnd1 ;Pega primeiro elemento
           +  AmLoad ;soma com instrução de colocar no acc
           MM next1
 next1     $  /0001
@@ -61,16 +66,16 @@ next2     $  /0001
           
           ;compara A1 com A10
           LD A10
-          JZ fim
+          JZ endSTRCMP
           LD A1
-          JZ fim
+          JZ endSTRCMP
           - A10
           SC IfZAddCount
           ;;Verifica B1 e B10
           LD B10
-          JZ fim
+          JZ endSTRCMP
           LD B1
-          JZ fim
+          JZ endSTRCMP
           - B10
           SC IfZAddCount
 
@@ -85,8 +90,12 @@ next2     $  /0001
 
           JP inicio
 
-fim       HM fim
+endSTRCMP      LD count 
+               RS STRCMP
 
+
+; ******** INICIO DAS SUBROTINAS ********;
+; *** UNPACK() ***;
 UNPACK    $  /0001
           MM temp   ;guarda no temp
           *  cemH    ;shift de 2 bytes para esquerda
@@ -105,14 +114,16 @@ parteA    LD temp
 casoNeg2  - corr
           MM sUnpackA
 fimSubRotina RS UNPACK
+; *** end UNPACK() ***;
 
+; *** IfZAddCount() ***;
 IfZAddCount       $ /0001
                JZ contAddCount ;Se nao for igual a zero, vai pra fimAddCount
-               JP fim
+               JP endSTRCMP
 fimAddCount    RS IfZAddCount
 contAddCount   LD count
                + um
                MM count
                JP fimAddCount
-
+; *** end IfZAddCount() ***;
 # main 

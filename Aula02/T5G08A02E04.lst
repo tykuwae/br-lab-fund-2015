@@ -1,0 +1,141 @@
+				;	@ /0000             ;Inicio do programa
+0000 0042		;	main  JP  inicio    ;Jump para o inicio do programa
+0002 0000		;	count  $  /0001  ;Resposta   0
+				;	count  $  /0001  ;Resposta
+0004 7661		;	string1   K  'va
+0006 6963		;	          K  'ic
+0008 6f61		;	          K  'oa
+000a 6600		;	          K  /6600
+000c 0000		;	          K  /0000
+000e 0000		;	          K  /0000
+0010 0000		;	          K  /0000
+0012 0000		;	          K  /0000
+0014 7661		;	string2   K  'va
+0016 6963		;	          K  'ic
+0018 6f6d		;	          K  'om
+001a 6600		;	          K  /6600
+001c 0000		;	          K  /0000
+001e 0000		;	          K  /0000
+0020 0000		;	          K  /0000
+0022 0000		;	          K  /0000 
+0024 0000		;	A1        $  /0001   0
+				;	A1        $  /0001
+0026 0000		;	B1        $  /0001          0
+				;	B1        $  /0001       
+0028 0000		;	A10       $  /0001   0
+				;	A10       $  /0001
+002a 0000		;	B10       $  /0001   0
+				;	B10       $  /0001
+;variaveis da funcao UNPACK
+002c 0000		;	temp      $  /0001   0
+				;	temp      $  /0001
+002e 0000		;	sUnpackA  $  /0001    0
+				;	sUnpackA  $  /0001 
+0030 0000		;	sUnpackB  $  /0001   0
+				;	sUnpackB  $  /0001
+
+;Constants
+0032 0001		;	um        K  /0001
+0034 0002		;	dois      K  /0002
+0036 0100		;	cemH      K  /0100
+0038 0010		;	dezH      K  /0010
+003a ff00		;	corr      K  /FF00
+
+;auto-modificação
+003c 8000		;	AmLoad    K  /8000
+003e 0004		;	AmEnd1    K  string1
+0040 0014		;	AmEnd2    K  string2 
+
+; ****** INICIO DO PROGRAMA ****** ;
+0042 a046		;	inicio    SC STRCMP
+0044 c044		;	fim       HM fim
+; ****** FIM DO PROGRAMA ****** ;
+
+0046 0000		;	STRCMP    $  /0001   0
+				;	STRCMP    $  /0001
+0048 803e		;	          LD AmEnd1 ;Pega primeiro elemento
+004a 403c		;	          +  AmLoad ;soma com instrução de colocar no acc
+004c 904e		;	          MM next1
+004e 0000		;	next1     $  /0001   0
+				;	next1     $  /0001
+0050 a096		;	          SC UNPACK   ;chama surotina unpack()
+0052 802e		;	          LD sUnpackA
+0054 9024		;	          MM A1
+0056 8030		;	          LD sUnpackB
+0058 9026		;	          MM B1
+
+005a 8040		;	          LD AmEnd2 ;Carreg primeira palavra da string2 no acc
+005c 403c		;	          +  AmLoad ;soma com instrução de colocar no acc
+005e 9060		;	          MM next2
+0060 0000		;	next2     $  /0001   0
+				;	next2     $  /0001
+0062 a096		;	          SC UNPACK   ;chama surotina unpack()
+0064 802e		;	          LD sUnpackA
+0066 9028		;	          MM A10
+0068 8030		;	          LD sUnpackB
+006a 902a		;	          MM B10
+          
+          ;compara A1 com A10
+006c 8028		;	          LD A10
+006e 1092		;	          JZ endSTRCMP
+0070 8024		;	          LD A1
+0072 1092		;	          JZ endSTRCMP
+0074 5028		;	          - A10
+0076 a0ba		;	          SC IfZAddCount
+          ;;Verifica B1 e B10
+0078 802a		;	          LD B10
+007a 1092		;	          JZ endSTRCMP
+007c 8026		;	          LD B1
+007e 1092		;	          JZ endSTRCMP
+0080 502a		;	          - B10
+0082 a0ba		;	          SC IfZAddCount
+
+          ;Auto modificação
+0084 803e		;	          LD AmEnd1
+0086 4034		;	          +  dois
+0088 903e		;	          MM AmEnd1
+
+008a 8040		;	          LD AmEnd2
+008c 4034		;	          +  dois
+008e 9040		;	          MM AmEnd2
+
+0090 0042		;	          JP inicio
+
+0092 8002		;	endSTRCMP      LD count 
+0094 b046		;	               RS STRCMP
+
+
+; ******** INICIO DAS SUBROTINAS ********;
+; *** UNPACK() ***;
+0096 0000		;	UNPACK    $  /0001   0
+				;	UNPACK    $  /0001
+0098 902c		;	          MM temp   ;guarda no temp
+009a 6036		;	          *  cemH    ;shift de 2 bytes para esquerda
+009c 7036		;	          /  cemH    ;shift de 2 bytes para direita
+009e 20a4		;	          JN casoNeg ;caso negativo jmp para casoNEG
+00a0 9030		;	          MM sUnpackB
+00a2 00a8		;	          JP parteA ;continua para pegar a primeira parte da palavra
+00a4 503a		;	casoNeg   - corr
+00a6 9030		;	          MM sUnpackB
+00a8 802c		;	parteA    LD temp
+00aa 5030		;	          - sUnpackB
+00ac 7036		;	          / cemH
+00ae 20b4		;	          JN casoNeg2 ;caso negativo
+00b0 902e		;	          MM sUnpackA
+00b2 00b8		;	          JP fimSubRotina
+00b4 503a		;	casoNeg2  - corr
+00b6 902e		;	          MM sUnpackA
+00b8 b096		;	fimSubRotina RS UNPACK
+; *** end UNPACK() ***;
+
+; *** IfZAddCount() ***;
+00ba 0000		;	IfZAddCount       $ /0001   0
+				;	IfZAddCount       $ /0001
+00bc 10c2		;	               JZ contAddCount ;Se nao for igual a zero, vai pra fimAddCount
+00be 0092		;	               JP endSTRCMP
+00c0 b0ba		;	fimAddCount    RS IfZAddCount
+00c2 8002		;	contAddCount   LD count
+00c4 4032		;	               + um
+00c6 9002		;	               MM count
+00c8 00c0		;	               JP fimAddCount
+; *** end IfZAddCount() ***;
