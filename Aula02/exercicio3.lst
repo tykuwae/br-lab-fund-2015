@@ -1,0 +1,143 @@
+				;	@ /0000
+0000 006e		;	main JP inicio
+0002 0006		;	numeroDeBytes K /0006
+0004 0008		;	origem  K /0008    ;ponteiro do origem
+0006 0016		;	destino K /0016    ;ponteiro do destino
+
+0008 81a0		;	        K /81A0
+000a 151c		;	        K /151C
+000c b2aa		;	        K /B2AA  
+000e 0000		;	memDest $ /0022   0
+0010 0000		;	memDest $ /0022   2
+0012 0000		;	memDest $ /0022   4
+0014 0000		;	memDest $ /0022   6
+0016 0000		;	memDest $ /0022   8
+0018 0000		;	memDest $ /0022   a
+001a 0000		;	memDest $ /0022   c
+001c 0000		;	memDest $ /0022   e
+001e 0000		;	memDest $ /0022   10
+0020 0000		;	memDest $ /0022   12
+0022 0000		;	memDest $ /0022   14
+0024 0000		;	memDest $ /0022   16
+0026 0000		;	memDest $ /0022   18
+0028 0000		;	memDest $ /0022   1a
+002a 0000		;	memDest $ /0022   1c
+002c 0000		;	memDest $ /0022   1e
+002e 0000		;	memDest $ /0022   20
+0030 0000		;	memDest $ /0022   22
+0032 0000		;	memDest $ /0022   24
+0034 0000		;	memDest $ /0022   26
+0036 0000		;	memDest $ /0022   28
+0038 0000		;	memDest $ /0022   2a
+003a 0000		;	memDest $ /0022   2c
+003c 0000		;	memDest $ /0022   2e
+003e 0000		;	memDest $ /0022   30
+0040 0000		;	memDest $ /0022   32
+0042 0000		;	memDest $ /0022   34
+0044 0000		;	memDest $ /0022   36
+0046 0000		;	memDest $ /0022   38
+0048 0000		;	memDest $ /0022   3a
+004a 0000		;	memDest $ /0022   3c
+004c 0000		;	memDest $ /0022   3e
+004e 0000		;	memDest $ /0022   40
+0050 0000		;	memDest $ /0022   42
+				;	memDest $ /0022
+
+;variaveis do programa
+0052 0000		;	contador                $ /0001   0
+				;	contador                $ /0001
+0054 0000		;	conteudoImpar           $ /0001   0
+				;	conteudoImpar           $ /0001
+0056 0000		;	conteudoSendoMovido     $ /0001   0
+				;	conteudoSendoMovido     $ /0001
+0058 0000		;	EndSendoMovido          $ /0001   0
+				;	EndSendoMovido          $ /0001
+
+;variaveis da funcao UNPACK
+005a 0000		;	temp      $  /0001   0
+				;	temp      $  /0001
+005c 0000		;	sUnpackA  $  /0001    0
+				;	sUnpackA  $  /0001 
+005e 0000		;	sUnpackB  $  /0001   0
+				;	sUnpackB  $  /0001
+
+;instruções auto-modificação
+0060 8000		;	AmLoad K /8000
+0062 9000		;	AmDownload k /9000
+
+;Constants
+0064 0001		;	um        K  /0001
+0066 0002		;	dois      K  /0002
+0068 0100		;	cemH      K  /0100
+006a 0010		;	dezH      K  /0010
+006c ff00		;	corr      K  /FF00
+
+006e 8002		;	inicio    LD numeroDeBytes
+0070 9052		;	loop      MM contador
+0072 8052		;	          LD contador
+0074 5066		;	          - dois
+0076 9052		;	          MM contador
+0078 8060		;	          LD AmLoad
+007a 4004		;	          + origem
+007c 907e		;	          MM proxInstr
+007e 0000		;	proxInstr $ /0001   0
+				;	proxInstr $ /0001
+0080 9056		;	          MM conteudoSendoMovido
+0082 8052		;	          LD contador
+0084 20a6		;	          JN unpackUmByte
+0086 8062		;	          LD AmDownload ;9000
+0088 4006		;	          + destino ;0010
+008a 908e		;	          MM proxInstr2
+008c 8056		;	          LD conteudoSendoMovido ;conteudo
+008e 0000		;	proxInstr2 $ /0001   0
+				;	proxInstr2 $ /0001
+          ;Atualiza auto-modificação
+0090 8004		;	          LD origem 
+0092 4066		;	          + dois
+0094 9004		;	          MM origem
+0096 8006		;	          LD destino
+0098 4066		;	          + dois
+009a 9006		;	          MM destino
+          ;verificar numero par de bytes
+009c 8052		;	          LD contador
+009e 4066		;	          + dois
+00a0 10bc		;	          JZ fim
+00a2 5066		;	          - dois
+00a4 0070		;	          JP loop
+
+00a6 8056		;	unpackUmByte  LD conteudoSendoMovido
+00a8 a0be		;	              SC UNPACK
+00aa 805c		;	              LD sUnpackA
+00ac 6068		;	              * cemH
+00ae 9054		;	              MM conteudoImpar
+00b0 8062		;	              LD AmDownload ;9000
+00b2 4006		;	              + destino ;0010
+00b4 90b8		;	              MM proxInstr3
+00b6 8054		;	              LD conteudoImpar ;conteudo
+00b8 0000		;	proxInstr3    $ /0001   0
+				;	proxInstr3    $ /0001
+00ba 00bc		;	              JP fim
+
+00bc c0bc		;	fim    HM fim
+
+00be 0000		;	UNPACK    $  /0001   0
+				;	UNPACK    $  /0001
+00c0 905a		;	          MM temp   ;guarda no temp
+00c2 6068		;	          *  cemH    ;shift de 2 bytes para esquerda
+00c4 7068		;	          /  cemH    ;shift de 2 bytes para direita
+00c6 20cc		;	          JN casoNeg ;caso negativo jmp para casoNEG
+00c8 905e		;	          MM sUnpackB
+00ca 00d0		;	          JP parteA ;continua para pegar a primeira parte da palavra
+00cc 506c		;	casoNeg   - corr
+00ce 905e		;	          MM sUnpackB
+00d0 805a		;	parteA    LD temp
+00d2 505e		;	          - sUnpackB
+00d4 7068		;	          / cemH
+00d6 20dc		;	          JN casoNeg2 ;caso negativo
+00d8 905c		;	          MM sUnpackA
+00da 00e0		;	          JP fimSubRotina
+00dc 506c		;	casoNeg2  - corr
+00de 905c		;	          MM sUnpackA
+00e0 b0be		;	fimSubRotina RS UNPACK
+
+

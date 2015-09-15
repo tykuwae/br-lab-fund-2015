@@ -2,7 +2,7 @@
 0000 0044		;	main  JP  inicio    ;Jump para o inicio do programa
 0002 0000		;	count  $  /0001  ;Resposta   0
 				;	count  $  /0001  ;Resposta
-0004 7661		;	string1   K  'va
+0004 0000		;	string1   K  /0000
 0006 6963		;	          K  'ic
 0008 6f6d		;	          K  'om
 000a 6665		;	          K  /6665
@@ -18,10 +18,10 @@
 001e 0000		;	          K  /0000
 0020 0000		;	          K  /0000
 0022 0000		;	          K  /0000 
-0024 0000		;	A1        $  /0001 ;24   0
-				;	A1        $  /0001 ;24
-0026 0000		;	B1        $  /0001 ;26          0
-				;	B1        $  /0001 ;26       
+0024 0000		;	A1        $  /0001   0
+				;	A1        $  /0001
+0026 0000		;	B1        $  /0001          0
+				;	B1        $  /0001       
 0028 0000		;	A10       $  /0001   0
 				;	A10       $  /0001
 002a 0000		;	B10       $  /0001   0
@@ -29,10 +29,10 @@
 ;variaveis da funcao UNPACK
 002c 0000		;	temp      $  /0001   0
 				;	temp      $  /0001
-002e 0000		;	sUnpackA  $  /0001  ;2E   0
-				;	sUnpackA  $  /0001  ;2E
-0030 0000		;	sUnpackB  $  /0001  ;30   0
-				;	sUnpackB  $  /0001  ;30
+002e 0000		;	sUnpackA  $  /0001    0
+				;	sUnpackA  $  /0001 
+0030 0000		;	sUnpackB  $  /0001   0
+				;	sUnpackB  $  /0001
 
 ;Contador do pograma principal   
 0032 0000		;	count2    $  /0001    0
@@ -130,11 +130,4 @@
 00be 4034		;	               + um
 00c0 9002		;	               MM count
 00c2 00ba		;	               JP fimAddCount
-
-00c4 0000		;	Verifica  $ /0001   0
-				;	Verifica  $ /0001
-00c6 10c8		;	          JZ A ;Se o acumulador é 0, vai verificar se o count tambem é zero. Se sim, vai para fim do programa
-
-00c8 8002		;	A         LD count
-00ca 108e		;	          JZ fim
 

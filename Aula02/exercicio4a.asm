@@ -1,7 +1,7 @@
 @ /0000             ;Inicio do programa
 main  JP  inicio    ;Jump para o inicio do programa
 count  $  /0001  ;Resposta
-string1   K  'va
+string1   K  /0000
           K  'ic
           K  'om
           K  /6665
@@ -25,9 +25,6 @@ B10       $  /0001
 temp      $  /0001
 sUnpackA  $  /0001 
 sUnpackB  $  /0001
-
-;Contador do pograma principal   
-count2    $  /0001 
 
 ;Constants
 um        K  /0001
