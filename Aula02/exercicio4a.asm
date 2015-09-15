@@ -4,27 +4,27 @@ count  $  /0001  ;Resposta
 string1   K  'va
           K  'ic
           K  'om
-          K  'fe
+          K  /6665
           K  /0000
           K  /0000
           K  /0000
           K  /0000
 string2   K  'va
           K  'ic
-          K  'oa
-          K  'fe
+          K  'om
+          K  /6600
           K  /0000
           K  /0000
           K  /0000
           K  /0000 
-A1        $  /0001 ;24
-B1        $  /0001 ;26       
+A1        $  /0001
+B1        $  /0001       
 A10       $  /0001
 B10       $  /0001
 ;variaveis da funcao UNPACK
 temp      $  /0001
-sUnpackA  $  /0001  ;2E
-sUnpackB  $  /0001  ;30
+sUnpackA  $  /0001 
+sUnpackB  $  /0001
 
 ;Contador do pograma principal   
 count2    $  /0001 
@@ -117,11 +117,5 @@ contAddCount   LD count
                + um
                MM count
                JP fimAddCount
-
-Verifica  $ /0001
-          JZ A ;Se o acumulador é 0, vai verificar se o count tambem é zero. Se sim, vai para fim do programa
-
-A         LD count
-          JZ fim
 
 # main 
