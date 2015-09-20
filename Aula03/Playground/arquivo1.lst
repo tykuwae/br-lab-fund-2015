@@ -1,0 +1,9 @@
+4000 0000 ; "X<"		;		X	<
+4001 0000 ; "Y<"		;		Y	<
+2000 0000 ; "SUBTRAIR>"		;		SUBTRAIR >
+				;		& /0000
+8000 0000		;		SUBTRAIR 	$	/0001   0
+				;		SUBTRAIR 	$	/0001
+d002 8000		;					LD	X
+d004 5001		;					-	Y
+a006 b000		;					RS SUBTRAIR
