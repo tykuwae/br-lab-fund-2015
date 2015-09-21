@@ -1,13 +1,13 @@
 ;***** constantes *****
-h0001 <
-h0002 <
-h0100 <
-hFF00 <
+4000 0000 ; "h0001<"		;	h0001 <
+4001 0000 ; "h0002<"		;	h0002 <
+4002 0000 ; "h0100<"		;	h0100 <
+4003 0000 ; "hFF00<"		;	hFF00 <
 
 ;***** variaveis para PACK() *****
-PACK    >
-packA   <
-packB   <  
+2000 0000 ; "PACK>"		;	PACK    >
+4004 0000 ; "packA<"		;	packA   <
+4005 0000 ; "packB<"		;	packB   <  
 
 ; ;***** variaveis para UNPACK() *****
 ; UNPACK  >
@@ -32,13 +32,14 @@ packB   <
 ; IfZAddCount >
 ; count <
 
-& /0000
+				;	& /0000
 ;**************************** PACK() ***************************************;
-PACK      $ /0001
-          LD packA ;Carrega no acc <- packA
-          *  h0100    ; multiplca por h0100
-          +  packB
-          RS PACK
+8000 0000		;	PACK      $ /0001   0
+				;	PACK      $ /0001
+d002 8004		;	          LD packA ;Carrega no acc <- packA
+d004 6002		;	          *  h0100    ; multiplca por h0100
+d006 4005		;	          +  packB
+a008 b000		;	          RS PACK
 
 ; ;*************************** UNPACK() **************************************;
 ; UNPACK    $  /0001
@@ -123,5 +124,4 @@ PACK      $ /0001
 ;                RS STRCMP
 
 
-# PACK
 

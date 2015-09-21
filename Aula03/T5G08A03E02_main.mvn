@@ -1,11 +1,14 @@
-;ç No main, as seguintes restrições devem ser
-;observadas:
-;– Endereço de início do programa principal: 0000
-;Obs.: basta colocar o main como primeiro arquivo a ser ligado e fixar a base de relocação em 0 para obter esse endereço.
-;– Endereço da entrada para a rotina PACK: 0002 e 0004
-;– Endereço da saída para a rotina PACK: 0006
-;– Endereço da entrada para a rotina UNPACK: 0008
-;– Endereço da saída para a rotina UNPACK: 000A e 000C
-;– Endereços das entradas da rotina MEMCPY: 000E, 0010, 0012
-;– Endereço reservado para sequências de origem e destino 2ª da
-;rotina MEMCPY : 0014 a 0024
+4000 0000 ; "packA<"
+4001 0000 ; "packB<"
+4002 0000 ; "PACK<"
+a000 0008
+8002 0010
+8004 0064
+8006 0000
+a008 8002
+d00a 9000
+a00c 8004
+d00e 9001
+d010 a002
+a012 9006
+a014 c014

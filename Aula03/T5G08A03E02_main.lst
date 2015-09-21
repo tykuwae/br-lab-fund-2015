@@ -1,0 +1,19 @@
+4000 0000 ; "packA<"		;	packA   <
+4001 0000 ; "packB<"		;	packB   < 
+4002 0000 ; "PACK<"		;	PACK    <
+				;	& /0000 ;ANTES ERA @ /0000. SUBSTITUÍDO POR & /0000 APÓS COMENTÁRIO EM AULA SOBRE BUG.
+
+a000 0008		;	MAIN  JP  INICIO
+8002 0010		;	    A K   /0010
+8004 0064		;	    B K   /0064
+8006 0000		;	    SAIDA $ /0001   0
+				;	    SAIDA $ /0001
+
+a008 8002		;	INICIO  LD  A
+d00a 9000		;	    MM  packA
+a00c 8004		;	    LD  B
+d00e 9001		;	    MM  packB
+d010 a002		;	    SC  PACK
+a012 9006		;	    MM  SAIDA
+a014 c014		;	FIM   HM  FIM
+
