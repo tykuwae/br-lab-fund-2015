@@ -1,0 +1,47 @@
+;***** constantes *****
+2000 0000 ; "h0000>"		;	h0000 >
+2002 0000 ; "h0001>"		;	h0001 >
+2004 0000 ; "h0002>"		;	h0002 >
+2006 0000 ; "h0100>"		;	h0100 >
+2008 0000 ; "hFF00>"		;	hFF00 >
+0000 0000 ; "hFFFF>"		;	hFFFF >
+200a 0000 ; "AmLoad>"		;	AmLoad >
+200c 0000 ; "AmDownload>"		;	AmDownload >
+
+;***** variaveis para PACK() *****
+200e 0000 ; "packA>"		;	packA   >
+2010 0000 ; "packB>"		;	packB   > 
+
+
+;***** variaveis para UNPACK() *****
+2012 0000 ; "unpackA>"		;	unpackA >
+2014 0000 ; "unpackB>"		;	unpackB >
+2016 0000 ; "temp>"		;	temp >
+
+
+
+				;	& /0000
+;***** constantes *****
+8000 0000		;	h0000 K /0000
+8002 0001		;	h0001 K /0001 
+8004 0002		;	h0002 K /0002  
+8006 0100		;	h0100 K /0100  
+8008 ff00		;	hFF00 K /FF00
+800a 8000		;	AmLoad    K /8000
+800c 9000		;	AmDownload k /9000
+
+;***** variaveis para PACK() *****
+800e 0000		;	packA $ /0001 ;entrada 1 de PACK      0
+				;	packA $ /0001 ;entrada 1 de PACK   
+8010 0000		;	packB $ /0001 ;entrada 2 de PACK           0
+				;	packB $ /0001 ;entrada 2 de PACK        
+
+;***** variaveis para UNPACK() *****
+8012 0000		;	unpackA $ /0001   0
+				;	unpackA $ /0001
+8014 0000		;	unpackB $ /0001   0
+				;	unpackB $ /0001
+8016 0000		;	temp $ /0001   0
+				;	temp $ /0001
+
+

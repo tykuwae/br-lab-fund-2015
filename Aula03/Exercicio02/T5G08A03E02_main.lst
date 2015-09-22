@@ -1,0 +1,130 @@
+;***** variaveis para PACK() *****
+4000 0000 ; "packA<"		;	packA   <
+4001 0000 ; "packB<"		;	packB   < 
+4002 0000 ; "PACK<"		;	PACK    <
+
+;***** variaveis para UNPACK() *****
+4003 0000 ; "UNPACK<"		;	UNPACK  <
+4004 0000 ; "unpackA<"		;	unpackA  <
+4005 0000 ; "unpackB<"		;	unpackB  <
+
+
+
+				;	& /0000 ;ANTES ERA @ /0000. SUBSTITUÍDO POR & /0000 APÓS COMENTÁRIO EM AULA SOBRE BUG.
+
+a000 0020		;	MAIN  JP  INICIO
+
+8002 4646		;	chtoiA  K   'FF ; /3132
+8004 4646		;	chtoiB  K   'FF ; /3334
+;***** constants extrair****;
+8006 0030		;	h0030 K /0030
+8008 0037		;	h0037 K /0037 
+800a 003a		;	h003A K /003A ; Constante correpondente a um numero (maiores 3A que  nao sao numeros)
+800c 0047		;	h0047 K /0047 ; Constnte que verifica se eh uma letra maior que F
+800e 1000		;	h1000 K /1000
+8010 0100		;	h0100 K /0100
+8012 0010		;	h0010 K /0010
+8014 ffff		;	hFFFF K /FFFF
+
+;***** variaveis para CHTOI() TODO extrair *****
+8016 0000		;	chtoiWordA $ /0001 ;/0031   0
+				;	chtoiWordA $ /0001 ;/0031
+8018 0000		;	chtoiWordB $ /0001 ;/0032   0
+				;	chtoiWordB $ /0001 ;/0032
+801a 0000		;	chtoiWordC $ /0001 ;/0033   0
+				;	chtoiWordC $ /0001 ;/0033
+801c 0000		;	chtoiWordD $ /0001 ;/0034   0
+				;	chtoiWordD $ /0001 ;/0034
+801e 0000		;	chtoiFINAL $ /0001   0
+				;	chtoiFINAL $ /0001
+;******INICIO DO PROGRAMA******
+;Utilizaremos MEMCOPY para passar a string declarado no main para seu devido lugar
+a020 a026		;	INICIO  SC  CHTOI
+a022 901e		;	        MM chtoiFINAL
+a024 c024		;	FIM   HM  FIM
+
+8026 0000		;	CHTOI $ /0001   0
+				;	CHTOI $ /0001
+a028 8002		;	          LD  chtoiA
+d02a a003		;	          SC UNPACK
+d02c 8004		;	          LD unpackA
+a02e 9016		;	          MM chtoiWordA
+a030 500c		;	          - h0047
+a032 2036		;	          JN continua1
+a034 00b8		;	          JP errorChtoi
+a036 8016		;	continua1 LD chtoiWordA
+a038 500a		;	          - h003A
+a03a 2046		;	          JN isNumber
+a03c 8016		;	          LD chtoiWordA
+a03e 5008		;	          - h0037
+a040 600e		;	shift     * h1000
+a042 9016		;	          MM chtoiWordA
+a044 004c		;	          JP nextWord
+a046 8016		;	isNumber  LD chtoiWordA
+a048 5006		;	          - h0030
+a04a 0040		;	          JP shift
+;Proxima palavra
+d04c 8005		;	nextWord  LD unpackB
+a04e 9018		;	            MM chtoiWordB
+a050 500c		;	            - h0047
+a052 2056		;	            JN continua2
+a054 00b8		;	            JP errorChtoi
+a056 8018		;	continua2   LD chtoiWordB
+a058 500a		;	            - h003A
+a05a 2066		;	            JN isNumber2
+a05c 8018		;	            LD chtoiWordB
+a05e 5008		;	            - h0037
+a060 6010		;	shift2     * h0100
+a062 9018		;	            MM chtoiWordB
+a064 006c		;	            JP nextWord2
+a066 8018		;	isNumber2  LD chtoiWordB
+a068 5006		;	            - h0030
+a06a 0060		;	            JP shift2
+;Proxima palavra
+a06c 8004		;	 nextWord2  LD chtoiB
+d06e a003		;	            SC UNPACK
+d070 8004		;	            LD unpackA
+a072 901a		;	            MM chtoiWordC
+a074 500c		;	            - h0047
+a076 207a		;	            JN continua3
+a078 00b8		;	            JP errorChtoi
+a07a 801a		;	continua3   LD chtoiWordC
+a07c 500a		;	            - h003A
+a07e 208a		;	            JN isNumber3
+a080 801a		;	            LD chtoiWordC
+a082 5008		;	            - h0037
+a084 6012		;	shift3      * h0010
+a086 901a		;	            MM chtoiWordC
+a088 0090		;	            JP nextWord3
+a08a 801a		;	isNumber3   LD chtoiWordC
+a08c 5006		;	            - h0030
+a08e 0084		;	            JP shift3
+;Proxima palavra
+d090 8005		;	nextWord3   LD unpackB
+a092 901c		;	            MM chtoiWordD
+a094 500c		;	            - h0047
+a096 209a		;	            JN continua4
+a098 00b8		;	            JP errorChtoi
+a09a 801c		;	continua4   LD chtoiWordD
+a09c 500a		;	            - h003A
+a09e 20a8		;	            JN isNumber4
+a0a0 801c		;	            LD chtoiWordD
+a0a2 5008		;	            - h0037
+a0a4 901c		;	shift4      MM chtoiWordD
+a0a6 00ae		;	            JP addAll
+a0a8 801c		;	isNumber4   LD chtoiWordD
+a0aa 5006		;	            - h0030
+a0ac 00a4		;	            JP shift4
+;Agrupar os nibbles
+a0ae 8016		;	addAll      LD chtoiWordA
+a0b0 4018		;	            + chtoiWordB
+a0b2 401a		;	            + chtoiWordC
+a0b4 401c		;	            + chtoiWordD
+a0b6 b026		;	endChtoi    RS CHTOI
+
+a0b8 8014		;	errorChtoi  LD hFFFF
+a0ba 00b6		;	            JP endChtoi
+  
+
+
+
