@@ -1,127 +1,183 @@
 ;***** constantes *****
-4000 0000 ; "h0001<"		;	h0001 <
-4001 0000 ; "h0002<"		;	h0002 <
-4002 0000 ; "h0100<"		;	h0100 <
-4003 0000 ; "hFF00<"		;	hFF00 <
+4000 0000 ; "h0000<"		;	h0000 <
+4001 0000 ; "h0001<"		;	h0001 <
+4002 0000 ; "h0002<"		;	h0002 <
+4003 0000 ; "h0100<"		;	h0100 <
+4004 0000 ; "hFF00<"		;	hFF00 <
+4005 0000 ; "hFFFF<"		;	hFFFF <
+4006 0000 ; "AmLoad<"		;	AmLoad <
+4007 0000 ; "AmDownload<"		;	AmDownload <
 
 ;***** variaveis para PACK() *****
 2000 0000 ; "PACK>"		;	PACK    >
-4004 0000 ; "packA<"		;	packA   <
-4005 0000 ; "packB<"		;	packB   <  
+4008 0000 ; "packA<"		;	packA   <
+4009 0000 ; "packB<"		;	packB   <  
 
-; ;***** variaveis para UNPACK() *****
-; UNPACK  >
-; unpackA <
-; unpackB <
-; temp <
+;***** variaveis para UNPACK() *****
+200a 0000 ; "UNPACK>"		;	UNPACK  >
+4010 0000 ; "unpackA<"		;	unpackA <
+4011 0000 ; "unpackB<"		;	unpackB <
+4012 0000 ; "temp<"		;	temp <
 
-; ;***** variaveis para STRCMP() *****
-; STRCMP    >
-; count     <  ;Resposta
-; string1   <
-; string2   <
-; A1        <
-; B1        <
-; A10       <
-; B10       <
-; AmLoad    <
-; AmEnd1    <
-; AmEnd2    <
+;***** variaveis para STRCMP() *****
+203e 0000 ; "STRCMP>"		;	STRCMP    >
+4013 0000 ; "count<"		;	count     <  ;Resposta
+4014 0000 ; "string1<"		;	string1   <
+4015 0000 ; "string2<"		;	string2   <
+4016 0000 ; "A1<"		;	A1        <
+4017 0000 ; "B1<"		;	B1        <
+4018 0000 ; "A10<"		;	A10       <
+4019 0000 ; "B10<"		;	B10       <
+4020 0000 ; "AmLoad<"		;	AmLoad    <
+4021 0000 ; "AmEnd1<"		;	AmEnd1    <
+4022 0000 ; "AmEnd2<"		;	AmEnd2    <
 
-; ;***** variaveis para ifZAddCount() *****
-; IfZAddCount >
-; count <
+;***** variaveis para ifZAddCount() *****
+202e 0000 ; "IfZAddCount>"		;	IfZAddCount >
+
+;***** variaveis para MEMCOPY() *****
+208e 0000 ; "MEMCOPY>"		;	MEMCOPY >
+4023 0000 ; "numeroDeBytes<"		;	numeroDeBytes <
+4024 0000 ; "origem<"		;	origem  <
+4025 0000 ; "destino<"		;	destino <
+4026 0000 ; "countMemCopy<"		;	countMemCopy    <
+4027 0000 ; "moveMemCopy<"		;	moveMemCopy     <
 
 				;	& /0000
 ;**************************** PACK() ***************************************;
 8000 0000		;	PACK      $ /0001   0
 				;	PACK      $ /0001
-d002 8004		;	          LD packA ;Carrega no acc <- packA
-d004 6002		;	          *  h0100    ; multiplca por h0100
-d006 4005		;	          +  packB
+d002 8008		;	          LD packA ;Carrega no acc <- packA
+d004 6003		;	          *  h0100    ; multiplca por h0100
+d006 4009		;	          +  packB
 a008 b000		;	          RS PACK
 
-; ;*************************** UNPACK() **************************************;
-; UNPACK    $  /0001
-;           MM temp   ;guarda no temp
-;           *  h0100    ;shift de 2 bytes para esquerda
-;           /  h0100    ;shift de 2 bytes para direita
-;           JN casoNeg ;caso negativo jmp para casoNEG
-;           MM unpackB
-;           JP parteA ;continua para pegar a primeira parte da palavra
-; casoNeg   - hFF00
-;           MM unpackB
-; parteA    LD temp
-;           - unpackB
-;           / h0100
-;           JN casoNeg2 ;caso negativo
-;           MM unpackA
-;           JP fimSubRotina
-; casoNeg2  - hFF00
-;           MM unpackA
-; fimSubRotina  RS UNPACK
+;*************************** UNPACK() **************************************;
+800a 0000		;	UNPACK    $  /0001   0
+				;	UNPACK    $  /0001
+d00c 9012		;	          MM temp   ;guarda no temp
+d00e 6003		;	          *  h0100    ;shift de 2 bytes para esquerda
+d010 7003		;	          /  h0100    ;shift de 2 bytes para direita
+a012 2018		;	          JN casoNeg ;caso negativo jmp para casoNEG
+d014 9011		;	          MM unpackB
+a016 001c		;	          JP parteA ;continua para pegar a primeira parte da palavra
+d018 5004		;	casoNeg   - hFF00
+d01a 9011		;	          MM unpackB
+d01c 8012		;	parteA    LD temp
+d01e 5011		;	          - unpackB
+d020 7003		;	          / h0100
+a022 2028		;	          JN casoNeg2 ;caso negativo
+d024 9010		;	          MM unpackA
+a026 002c		;	          JP fimSubRotina
+d028 5004		;	casoNeg2  - hFF00
+d02a 9010		;	          MM unpackA
+a02c b00a		;	fimSubRotina  RS UNPACK
 
-; ;************************ IfZAddCount() ************************************;
-; IfZAddCount       $ /0001
-;                JZ contAddCount ;Se nao for igual a zero, vai pra fimAddCount
-;                JP endSTRCMP
-; fimAddCount    RS IfZAddCount
-; contAddCount   LD count
-;                + h0001
-;                MM count
-;                JP fimAddCount
+;************************ IfZAddCount() ************************************;
+802e 0000		;	IfZAddCount       $ /0001   0
+				;	IfZAddCount       $ /0001
+a030 1036		;	               JZ contAddCount ;Se nao for igual a zero, vai pra fimAddCount
+a032 008a		;	               JP endSTRCMP
+a034 b02e		;	fimAddCount    RS IfZAddCount
+d036 8013		;	contAddCount   LD count
+d038 4001		;	               + h0001
+d03a 9013		;	               MM count
+a03c 0034		;	               JP fimAddCount
 
-; ;**************************** STRCMP() ************************************;
+;**************************** STRCMP() ************************************;
 
-; STRCMP    $  /0001
-;           LD AmEnd1 ;Pega primeiro elemento
-;           +  AmLoad ;soma com instrução de colocar no acc
-;           MM next1
-; next1     $  /0001
-;           SC UNPACK   ;chama surotina unpack()
-;           LD unpackA
-;           MM A1
-;           LD unpackB
-;           MM B1
+803e 0000		;	STRCMP    $  /0001   0
+				;	STRCMP    $  /0001
+d040 8021		;	STRCMPloop LD AmEnd1 ;Pega primeiro elemento
+d042 4020		;	          +  AmLoad ;soma com instrução de colocar no acc
+a044 9046		;	          MM next1
+8046 0000		;	next1     $  /0001   0
+				;	next1     $  /0001
+a048 a00a		;	          SC UNPACK   ;chama surotina unpack()
+d04a 8010		;	          LD unpackA
+d04c 9016		;	          MM A1
+d04e 8011		;	          LD unpackB
+d050 9017		;	          MM B1
 
-;           LD AmEnd2 ;Carreg primeira palavra da string2 no acc
-;           +  AmLoad ;soma com instrução de colocar no acc
-;           MM next2
-; next2     $  /0001
-;           SC UNPACK   ;chama surotina unpack()
-;           LD unpackA
-;           MM A10
-;           LD unpackB
-;           MM B10
+d052 8022		;	          LD AmEnd2 ;Carreg primeira palavra da string2 no acc
+d054 4020		;	          +  AmLoad ;soma com instrução de colocar no acc
+a056 9058		;	          MM next2
+8058 0000		;	next2     $  /0001   0
+				;	next2     $  /0001
+a05a a00a		;	          SC UNPACK   ;chama surotina unpack()
+d05c 8010		;	          LD unpackA
+d05e 9018		;	          MM A10
+d060 8011		;	          LD unpackB
+d062 9019		;	          MM B10
           
-;           ;compara A1 com A10
-;           LD A10
-;           JZ endSTRCMP
-;           LD A1
-;           JZ endSTRCMP
-;           - A10
-;           SC IfZAddCount
-;           ;;Verifica B1 e B10
-;           LD B10
-;           JZ endSTRCMP
-;           LD B1
-;           JZ endSTRCMP
-;           - B10
-;           SC IfZAddCount
+          ;compara A1 com A10
+d064 8018		;	          LD A10
+a066 108a		;	          JZ endSTRCMP
+d068 8016		;	          LD A1
+a06a 108a		;	          JZ endSTRCMP
+d06c 5018		;	          - A10
+a06e a02e		;	          SC IfZAddCount
+          ;;Verifica B1 e B10
+d070 8019		;	          LD B10
+a072 108a		;	          JZ endSTRCMP
+d074 8017		;	          LD B1
+a076 108a		;	          JZ endSTRCMP
+d078 5019		;	          - B10
+a07a a02e		;	          SC IfZAddCount
 
-;           ;Auto modificação
-;           LD AmEnd1
-;           +  h0002
-;           MM AmEnd1
+          ;Auto modificação
+d07c 8021		;	          LD AmEnd1
+d07e 4002		;	          +  h0002
+d080 9021		;	          MM AmEnd1
 
-;           LD AmEnd2
-;           +  h0002
-;           MM AmEnd2
+d082 8022		;	          LD AmEnd2
+d084 4002		;	          +  h0002
+d086 9022		;	          MM AmEnd2
 
-;           JP inicio
+a088 0040		;	          JP STRCMPloop
 
-; endSTRCMP      LD count 
-;                RS STRCMP
+d08a 8013		;	endSTRCMP      LD count 
+a08c b03e		;	               RS STRCMP
+
+;**************************** MEMCOPY() ************************************;
+808e 0000		;	MEMCOPY   $ /0001   0
+				;	MEMCOPY   $ /0001
+d090 8023		;	          LD numeroDeBytes
+a092 10c4		;	          JZ endMEMCOPYfail
+d094 9026		;	loopMemCopy MM countMemCopy
+d096 8026		;	          LD countMemCopy
+d098 5001		;	          - h0001
+d09a 9026		;	          MM countMemCopy
+d09c 8020		;	          LD AmLoad
+d09e 4024		;	          + origem
+a0a0 90a2		;	          MM proxInstr
+80a2 0000		;	proxInstr $ /0001   0
+				;	proxInstr $ /0001
+d0a4 9027		;	          MM moveMemCopy
+d0a6 8026		;	          LD countMemCopy
+d0a8 8007		;	          LD AmDownload
+d0aa 4025		;	          + destino
+a0ac 90b0		;	          MM proxInstr2
+d0ae 8027		;	          LD moveMemCopy ;conteudo
+80b0 0000		;	proxInstr2 $ /0001   0
+				;	proxInstr2 $ /0001
+          ;Atualiza auto-modificação
+d0b2 8024		;	          LD origem 
+d0b4 4002		;	          + h0002
+d0b6 9024		;	          MM origem
+d0b8 8025		;	          LD destino
+d0ba 4002		;	          + h0002
+d0bc 9025		;	          MM destino
+          ;verificar numero par de bytes
+d0be 8026		;	          LD countMemCopy
+a0c0 10c8		;	          JZ endMEMCOPYsuccess
+a0c2 0094		;	          JP loopMemCopy
+
+d0c4 8005		;	endMEMCOPYfail    LD  hFFFF
+a0c6 b08e		;	                  RS  MEMCOPY
+
+d0c8 8000		;	endMEMCOPYsuccess   LD h0000    
+a0ca b08e		;	                    RS MEMCOPY
 
 
 

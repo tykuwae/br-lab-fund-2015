@@ -1,22 +1,107 @@
 ;***** constantes *****
-2000 0000 ; "h0001>"		;	h0001 >
-2002 0000 ; "h0002>"		;	h0002 >
-2004 0000 ; "h0100>"		;	h0100 >
-2006 0000 ; "hFF00>"		;	hFF00 >
+2000 0000 ; "h0000>"		;	h0000 >
+2002 0000 ; "h0001>"		;	h0001 >
+2004 0000 ; "h0002>"		;	h0002 >
+2006 0000 ; "h0100>"		;	h0100 >
+2008 0000 ; "hFF00>"		;	hFF00 >
+0000 0000 ; "hFFFF>"		;	hFFFF >
+200a 0000 ; "AmLoad>"		;	AmLoad >
+200c 0000 ; "AmDownload>"		;	AmDownload >
 
 ;***** variaveis para PACK() *****
-2008 0000 ; "packA>"		;	packA   >
-200a 0000 ; "packB>"		;	packB   >  
+200e 0000 ; "packA>"		;	packA   >
+2010 0000 ; "packB>"		;	packB   > 
+
+
+;***** variaveis para UNPACK() *****
+2012 0000 ; "unpackA>"		;	unpackA >
+2014 0000 ; "unpackB>"		;	unpackB >
+2016 0000 ; "temp>"		;	temp >
+
+;***** variaveis para STRCMP() *****
+2038 0000 ; "count>"		;	count     >  ;Resposta
+2018 0000 ; "string1>"		;	string1   >
+2028 0000 ; "string2>"		;	string2   >
+203a 0000 ; "A1>"		;	A1        >
+203c 0000 ; "B1>"		;	B1        >
+203e 0000 ; "A10>"		;	A10       >
+2040 0000 ; "B10>"		;	B10       >
+2042 0000 ; "AmEnd1>"		;	AmEnd1    >
+2044 0000 ; "AmEnd2>"		;	AmEnd2    >
+
+;***** variaveis para MEMCOPY() *****
+2046 0000 ; "numeroDeBytes>"		;	numeroDeBytes >
+2048 0000 ; "origem>"		;	origem  >
+204a 0000 ; "destino>"		;	destino >
+204c 0000 ; "countMemCopy>"		;	countMemCopy    >
+204e 0000 ; "moveMemCopy>"		;	moveMemCopy     >
+
+
 				;	& /0000
 ;***** constantes *****
-8000 0001		;	h0001 K /0001 
-8002 0002		;	h0002 K /0002  
-8004 0100		;	h0100 K /0100  
-8006 ff00		;	hFF00 K /FF00    
+8000 0000		;	h0000 K /0000
+8002 0001		;	h0001 K /0001 
+8004 0002		;	h0002 K /0002  
+8006 0100		;	h0100 K /0100  
+8008 ff00		;	hFF00 K /FF00
+800a 8000		;	AmLoad    K /8000
+800c 9000		;	AmDownload k /9000
 
 ;***** variaveis para PACK() *****
-8008 0000		;	packA $ /0001 ;entrada 1 de PACK      0
+800e 0000		;	packA $ /0001 ;entrada 1 de PACK      0
 				;	packA $ /0001 ;entrada 1 de PACK   
-800a 0000		;	packB $ /0001 ;entrada 2 de PACK           0
+8010 0000		;	packB $ /0001 ;entrada 2 de PACK           0
 				;	packB $ /0001 ;entrada 2 de PACK        
+
+;***** variaveis para UNPACK() *****
+8012 0000		;	unpackA $ /0001   0
+				;	unpackA $ /0001
+8014 0000		;	unpackB $ /0001   0
+				;	unpackB $ /0001
+8016 0000		;	temp $ /0001   0
+				;	temp $ /0001
+
+;***** variaveis para STRCMP() *****
+8018 0000		;	string1   $ /0008   0
+801a 0000		;	string1   $ /0008   2
+801c 0000		;	string1   $ /0008   4
+801e 0000		;	string1   $ /0008   6
+8020 0000		;	string1   $ /0008   8
+8022 0000		;	string1   $ /0008   a
+8024 0000		;	string1   $ /0008   c
+8026 0000		;	string1   $ /0008   e
+				;	string1   $ /0008
+8028 0000		;	string2   $ /0008   0
+802a 0000		;	string2   $ /0008   2
+802c 0000		;	string2   $ /0008   4
+802e 0000		;	string2   $ /0008   6
+8030 0000		;	string2   $ /0008   8
+8032 0000		;	string2   $ /0008   a
+8034 0000		;	string2   $ /0008   c
+8036 0000		;	string2   $ /0008   e
+				;	string2   $ /0008
+8038 0000		;	count     $ /0001  ;Resposta   0
+				;	count     $ /0001  ;Resposta
+803a 0000		;	A1        $ /0001   0
+				;	A1        $ /0001
+803c 0000		;	B1        $ /0001   0
+				;	B1        $ /0001
+803e 0000		;	A10       $ /0001   0
+				;	A10       $ /0001
+8040 0000		;	B10       $ /0001   0
+				;	B10       $ /0001
+a042 0018		;	AmEnd1    K string1
+a044 0028		;	AmEnd2    K string2
+
+;***** variaveis para MEMCOPY() *****
+8046 0000		;	numeroDeBytes $ /0001   0
+				;	numeroDeBytes $ /0001
+8048 0000		;	origem  $ /0001   0
+				;	origem  $ /0001
+804a 0000		;	destino $ /0001   0
+				;	destino $ /0001
+804c 0000		;	countMemCopy    $ /0001   0
+				;	countMemCopy    $ /0001
+804e 0000		;	moveMemCopy     $ /0001   0
+				;	moveMemCopy     $ /0001
 
