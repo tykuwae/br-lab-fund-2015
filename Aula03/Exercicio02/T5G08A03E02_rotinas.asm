@@ -3,9 +3,11 @@ h0000 <
 h0001 <
 h0002 <
 h0010 <
+h000A <
 h0030 <
 h0037 <
 h003A <
+h0041 <
 h0047 <
 h1000 <
 h0100 <
@@ -13,7 +15,6 @@ hFF00 <
 hFFFF <
 AmLoad <
 AmDownload <
-
 ;***** variaveis para PACK() *****
 PACK    >
 packA   <
@@ -25,7 +26,7 @@ unpackA <
 unpackB <
 temp <
 
-;***** variaveis para CHTOI() TODO extrair *****
+;***** variaveis para CHTOI()  *****
 CHTOI >
 chtoiA  <
 chtoiB  <
@@ -34,6 +35,16 @@ chtoiWordA <
 chtoiWordB <
 chtoiWordC <
 chtoiWordD <
+
+;***** variaveis para ITOCH() *****
+  ITOCH >
+  RES1       <
+  RES2       <
+  A1         <
+  A2         <
+  B1         <
+  B2         <
+
 
 & /0000
 ;**************************** PACK() ***************************************;
@@ -118,6 +129,66 @@ isNumber  LD varNumberOrLetter
           JP EndNumberOrLetter
 errorChtoi        LD hFFFF
 EndNumberOrLetter RS NumberOrLetter
+
+
+;************ ITOCH() *************
+
+
+ITOCH  $ /0001
+        SC UNPACK 
+        LD unpackA
+        MM A1
+        LD unpackB
+        MM B1
+        LD A1
+        * h0010
+        SC UNPACK
+        LD unpackA
+        MM A1
+        LD unpackB
+        / h0010
+        MM A2
+        LD B1
+        * h0010
+        SC UNPACK
+        LD unpackA
+        MM B1
+        LD unpackB
+        / h0010
+        MM B2
+        ;apos essa etapa, as quatro secoes do numero estao separadas (ou deveriam estar, tipo 0001, 0002....)
+
+        LD A1
+        SC CHKNUM
+        * h0100
+        MM RES1
+        LD A2
+        SC CHKNUM
+        + RES1
+        MM RES1
+
+        LD B1
+        SC CHKNUM
+        * h0100
+        MM RES2
+        LD B2
+        SC CHKNUM
+        + RES2
+        MM RES2
+
+        RS ITOCH
+        ;Fim de rotina.
+
+
+CHKNUM  $ /0001
+        - h000A
+        JN EHNUM
+        + h0041
+ENDCHK  RS CHKNUM
+
+EHNUM   + h000A
+        + h0030
+        JP ENDCHK
 
 # PACK
 
