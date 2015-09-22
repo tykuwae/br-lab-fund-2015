@@ -2,51 +2,150 @@
 4000 0000 ; "h0000<"		;	h0000 <
 4001 0000 ; "h0001<"		;	h0001 <
 4002 0000 ; "h0002<"		;	h0002 <
-4003 0000 ; "h0100<"		;	h0100 <
-4004 0000 ; "hFF00<"		;	hFF00 <
-4005 0000 ; "hFFFF<"		;	hFFFF <
-4006 0000 ; "AmLoad<"		;	AmLoad <
-4007 0000 ; "AmDownload<"		;	AmDownload <
+4003 0000 ; "h0010<"		;	h0010 <
+4004 0000 ; "h0030<"		;	h0030 <
+4005 0000 ; "h0037<"		;	h0037 <
+4006 0000 ; "h003A<"		;	h003A <
+4007 0000 ; "h0047<"		;	h0047 <
+4008 0000 ; "h1000<"		;	h1000 <
+4009 0000 ; "h0100<"		;	h0100 <
+4010 0000 ; "hFF00<"		;	hFF00 <
+4011 0000 ; "hFFFF<"		;	hFFFF <
+4012 0000 ; "AmLoad<"		;	AmLoad <
+4013 0000 ; "AmDownload<"		;	AmDownload <
 
 ;***** variaveis para PACK() *****
 2000 0000 ; "PACK>"		;	PACK    >
-4008 0000 ; "packA<"		;	packA   <
-4009 0000 ; "packB<"		;	packB   <  
+4014 0000 ; "packA<"		;	packA   <
+4015 0000 ; "packB<"		;	packB   <  
 
 ;***** variaveis para UNPACK() *****
 200a 0000 ; "UNPACK>"		;	UNPACK  >
-4010 0000 ; "unpackA<"		;	unpackA <
-4011 0000 ; "unpackB<"		;	unpackB <
-4012 0000 ; "temp<"		;	temp <
+4016 0000 ; "unpackA<"		;	unpackA <
+4017 0000 ; "unpackB<"		;	unpackB <
+4018 0000 ; "temp<"		;	temp <
+
+;***** variaveis para CHTOI() TODO extrair *****
+202e 0000 ; "CHTOI>"		;	CHTOI >
+4019 0000 ; "chtoiA<"		;	chtoiA  <
+4020 0000 ; "chtoiB<"		;	chtoiB  <
+4021 0000 ; "chtoiWordA<"		;	chtoiWordA <
+4022 0000 ; "chtoiWordB<"		;	chtoiWordB <
+4023 0000 ; "chtoiWordC<"		;	chtoiWordC <
+4024 0000 ; "chtoiWordD<"		;	chtoiWordD <
 
 				;	& /0000
 ;**************************** PACK() ***************************************;
 8000 0000		;	PACK      $ /0001   0
 				;	PACK      $ /0001
-d002 8008		;	          LD packA ;Carrega no acc <- packA
-d004 6003		;	          *  h0100    ; multiplca por h0100
-d006 4009		;	          +  packB
+d002 8014		;	          LD packA ;Carrega no acc <- packA
+d004 6009		;	          *  h0100    ; multiplca por h0100
+d006 4015		;	          +  packB
 a008 b000		;	          RS PACK
 
 ;*************************** UNPACK() **************************************;
 800a 0000		;	UNPACK    $  /0001   0
 				;	UNPACK    $  /0001
-d00c 9012		;	          MM temp   ;guarda no temp
-d00e 6003		;	          *  h0100    ;shift de 2 bytes para esquerda
-d010 7003		;	          /  h0100    ;shift de 2 bytes para direita
+d00c 9018		;	          MM temp   ;guarda no temp
+d00e 6009		;	          *  h0100    ;shift de 2 bytes para esquerda
+d010 7009		;	          /  h0100    ;shift de 2 bytes para direita
 a012 2018		;	          JN casoNeg ;caso negativo jmp para casoNEG
-d014 9011		;	          MM unpackB
+d014 9017		;	          MM unpackB
 a016 001c		;	          JP parteA ;continua para pegar a primeira parte da palavra
-d018 5004		;	casoNeg   - hFF00
-d01a 9011		;	          MM unpackB
-d01c 8012		;	parteA    LD temp
-d01e 5011		;	          - unpackB
-d020 7003		;	          / h0100
+d018 5010		;	casoNeg   - hFF00
+d01a 9017		;	          MM unpackB
+d01c 8018		;	parteA    LD temp
+d01e 5017		;	          - unpackB
+d020 7009		;	          / h0100
 a022 2028		;	          JN casoNeg2 ;caso negativo
-d024 9010		;	          MM unpackA
+d024 9016		;	          MM unpackA
 a026 002c		;	          JP fimSubRotina
-d028 5004		;	casoNeg2  - hFF00
-d02a 9010		;	          MM unpackA
+d028 5010		;	casoNeg2  - hFF00
+d02a 9016		;	          MM unpackA
 a02c b00a		;	fimSubRotina  RS UNPACK
 
+;*************************** CHTOI() **************************************;
+
+802e 0000		;	CHTOI $ /0001   0
+				;	CHTOI $ /0001
+d030 8019		;	          LD  chtoiA
+a032 a00a		;	          SC UNPACK
+d034 8016		;	          LD unpackA
+d036 9021		;	          MM chtoiWordA
+d038 5007		;	          - h0047
+a03a 203e		;	          JN continua1
+a03c 00c0		;	          JP errorChtoi
+d03e 8021		;	continua1 LD chtoiWordA
+d040 5006		;	          - h003A
+a042 204e		;	          JN isNumber
+d044 8021		;	          LD chtoiWordA
+d046 5005		;	          - h0037
+d048 6008		;	shift     * h1000
+d04a 9021		;	          MM chtoiWordA
+a04c 0054		;	          JP nextWord
+d04e 8021		;	isNumber  LD chtoiWordA
+d050 5004		;	          - h0030
+a052 0048		;	          JP shift
+;Proxima palavra
+d054 8017		;	nextWord  LD unpackB
+d056 9022		;	            MM chtoiWordB
+d058 5007		;	            - h0047
+a05a 205e		;	            JN continua2
+a05c 00c0		;	            JP errorChtoi
+d05e 8022		;	continua2   LD chtoiWordB
+d060 5006		;	            - h003A
+a062 206e		;	            JN isNumber2
+d064 8022		;	            LD chtoiWordB
+d066 5005		;	            - h0037
+d068 6009		;	shift2     * h0100
+d06a 9022		;	            MM chtoiWordB
+a06c 0074		;	            JP nextWord2
+d06e 8022		;	isNumber2  LD chtoiWordB
+d070 5004		;	            - h0030
+a072 0068		;	            JP shift2
+;Proxima palavra
+d074 8020		;	 nextWord2  LD chtoiB
+a076 a00a		;	            SC UNPACK
+d078 8016		;	            LD unpackA
+d07a 9023		;	            MM chtoiWordC
+d07c 5007		;	            - h0047
+a07e 2082		;	            JN continua3
+a080 00c0		;	            JP errorChtoi
+d082 8023		;	continua3   LD chtoiWordC
+d084 5006		;	            - h003A
+a086 2092		;	            JN isNumber3
+d088 8023		;	            LD chtoiWordC
+d08a 5005		;	            - h0037
+d08c 6003		;	shift3      * h0010
+d08e 9023		;	            MM chtoiWordC
+a090 0098		;	            JP nextWord3
+d092 8023		;	isNumber3   LD chtoiWordC
+d094 5004		;	            - h0030
+a096 008c		;	            JP shift3
+;Proxima palavra
+d098 8017		;	nextWord3   LD unpackB
+d09a 9024		;	            MM chtoiWordD
+d09c 5007		;	            - h0047
+a09e 20a2		;	            JN continua4
+a0a0 00c0		;	            JP errorChtoi
+d0a2 8024		;	continua4   LD chtoiWordD
+d0a4 5006		;	            - h003A
+a0a6 20b0		;	            JN isNumber4
+d0a8 8024		;	            LD chtoiWordD
+d0aa 5005		;	            - h0037
+d0ac 9024		;	shift4      MM chtoiWordD
+a0ae 00b6		;	            JP addAll
+d0b0 8024		;	isNumber4   LD chtoiWordD
+d0b2 5004		;	            - h0030
+a0b4 00ac		;	            JP shift4
+;Agrupar os nibbles
+d0b6 8021		;	addAll      LD chtoiWordA
+d0b8 4022		;	            + chtoiWordB
+d0ba 4023		;	            + chtoiWordC
+d0bc 4024		;	            + chtoiWordD
+a0be b02e		;	endChtoi    RS CHTOI
+
+d0c0 8011		;	errorChtoi  LD hFFFF
+a0c2 00be		;	            JP endChtoi
+  
 
