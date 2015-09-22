@@ -19,10 +19,11 @@
 2024 0000 ; "temp>"
 2026 0000 ; "chtoiA>"
 2028 0000 ; "chtoiB>"
-202a 0000 ; "chtoiWordA>"
-202c 0000 ; "chtoiWordB>"
-202e 0000 ; "chtoiWordC>"
-2030 0000 ; "chtoiWordD>"
+202c 0000 ; "chtoiWordA>"
+202e 0000 ; "chtoiWordB>"
+2030 0000 ; "chtoiWordC>"
+2032 0000 ; "chtoiWordD>"
+202a 0000 ; "varNumberOrLetter>"
 8000 0000
 8002 0001
 8004 0002
@@ -49,3 +50,4 @@
 802e 0000
 8030 0000
 8032 0000
+8034 0000

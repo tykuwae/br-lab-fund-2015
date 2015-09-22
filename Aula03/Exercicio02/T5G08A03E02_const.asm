@@ -31,6 +31,7 @@ chtoiWordA >
 chtoiWordB >
 chtoiWordC >
 chtoiWordD >
+varNumberOrLetter >
 
 & /0000
 ;***** constantes *****
@@ -62,6 +63,7 @@ temp $ /0001
 ;***** variaveis para CHTOI() TODO extrair *****
 chtoiA  $ /0001 ; /3132
 chtoiB  $ /0001 ; /3334
+varNumberOrLetter $ /0001
 
 chtoiWordA $ /0001 ;/0031
 chtoiWordB $ /0001 ;/0032

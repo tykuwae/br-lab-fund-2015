@@ -29,6 +29,7 @@ temp <
 CHTOI >
 chtoiA  <
 chtoiB  <
+varNumberOrLetter <
 chtoiWordA <
 chtoiWordB <
 chtoiWordC <
@@ -68,73 +69,31 @@ CHTOI $ /0001
           LD  chtoiA
           SC UNPACK
           LD unpackA
+          SC NumberOrLetter
+          JN endChtoi
+          * h1000
           MM chtoiWordA
-          - h0047
-          JN continua1
-          JP errorChtoi
-continua1 LD chtoiWordA
-          - h003A
-          JN isNumber
-          LD chtoiWordA
-          - h0037
-shift     * h1000
-          MM chtoiWordA
-          JP nextWord
-isNumber  LD chtoiWordA
-          - h0030
-          JP shift
+          
 ;Proxima palavra
-nextWord  LD unpackB
-            MM chtoiWordB
-            - h0047
-            JN continua2
-            JP errorChtoi
-continua2   LD chtoiWordB
-            - h003A
-            JN isNumber2
-            LD chtoiWordB
-            - h0037
-shift2     * h0100
-            MM chtoiWordB
-            JP nextWord2
-isNumber2  LD chtoiWordB
-            - h0030
-            JP shift2
+          LD unpackB
+          SC NumberOrLetter
+          JN endChtoi
+          * h0100
+          MM chtoiWordB
 ;Proxima palavra
- nextWord2  LD chtoiB
+            LD chtoiB
             SC UNPACK
             LD unpackA
+            SC NumberOrLetter
+            JN endChtoi
+            * h0010
             MM chtoiWordC
-            - h0047
-            JN continua3
-            JP errorChtoi
-continua3   LD chtoiWordC
-            - h003A
-            JN isNumber3
-            LD chtoiWordC
-            - h0037
-shift3      * h0010
-            MM chtoiWordC
-            JP nextWord3
-isNumber3   LD chtoiWordC
-            - h0030
-            JP shift3
+           
 ;Proxima palavra
-nextWord3   LD unpackB
+            LD unpackB
+            SC NumberOrLetter
+            JN endChtoi
             MM chtoiWordD
-            - h0047
-            JN continua4
-            JP errorChtoi
-continua4   LD chtoiWordD
-            - h003A
-            JN isNumber4
-            LD chtoiWordD
-            - h0037
-shift4      MM chtoiWordD
-            JP addAll
-isNumber4   LD chtoiWordD
-            - h0030
-            JP shift4
 ;Agrupar os nibbles
 addAll      LD chtoiWordA
             + chtoiWordB
@@ -142,8 +101,23 @@ addAll      LD chtoiWordA
             + chtoiWordD
 endChtoi    RS CHTOI
 
-errorChtoi  LD hFFFF
-            JP endChtoi
-  
+
+NumberOrLetter $ /0001
+          MM varNumberOrLetter
+          - h0047
+          JN continua1
+          JP errorChtoi
+continua1 LD varNumberOrLetter
+          - h003A
+          JN isNumber
+          LD varNumberOrLetter
+          - h0037
+          JP EndNumberOrLetter
+isNumber  LD varNumberOrLetter
+          - h0030
+          JP EndNumberOrLetter
+errorChtoi        LD hFFFF
+EndNumberOrLetter RS NumberOrLetter
+
 # PACK
 

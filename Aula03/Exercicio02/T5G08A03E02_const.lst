@@ -27,10 +27,11 @@
 ;***** variaveis para CHTOI() TODO extrair *****
 2026 0000 ; "chtoiA>"		;	chtoiA  >
 2028 0000 ; "chtoiB>"		;	chtoiB  >
-202a 0000 ; "chtoiWordA>"		;	chtoiWordA >
-202c 0000 ; "chtoiWordB>"		;	chtoiWordB >
-202e 0000 ; "chtoiWordC>"		;	chtoiWordC >
-2030 0000 ; "chtoiWordD>"		;	chtoiWordD >
+202c 0000 ; "chtoiWordA>"		;	chtoiWordA >
+202e 0000 ; "chtoiWordB>"		;	chtoiWordB >
+2030 0000 ; "chtoiWordC>"		;	chtoiWordC >
+2032 0000 ; "chtoiWordD>"		;	chtoiWordD >
+202a 0000 ; "varNumberOrLetter>"		;	varNumberOrLetter >
 
 				;	& /0000
 ;***** constantes *****
@@ -69,15 +70,17 @@
 				;	chtoiA  $ /0001 ; /3132
 8028 0000		;	chtoiB  $ /0001 ; /3334   0
 				;	chtoiB  $ /0001 ; /3334
+802a 0000		;	varNumberOrLetter $ /0001   0
+				;	varNumberOrLetter $ /0001
 
-802a 0000		;	chtoiWordA $ /0001 ;/0031   0
+802c 0000		;	chtoiWordA $ /0001 ;/0031   0
 				;	chtoiWordA $ /0001 ;/0031
-802c 0000		;	chtoiWordB $ /0001 ;/0032   0
+802e 0000		;	chtoiWordB $ /0001 ;/0032   0
 				;	chtoiWordB $ /0001 ;/0032
-802e 0000		;	chtoiWordC $ /0001 ;/0033   0
+8030 0000		;	chtoiWordC $ /0001 ;/0033   0
 				;	chtoiWordC $ /0001 ;/0033
-8030 0000		;	chtoiWordD $ /0001 ;/0034   0
+8032 0000		;	chtoiWordD $ /0001 ;/0034   0
 				;	chtoiWordD $ /0001 ;/0034
-8032 0000		;	chtoiFINAL $ /0001   0
+8034 0000		;	chtoiFINAL $ /0001   0
 				;	chtoiFINAL $ /0001
 

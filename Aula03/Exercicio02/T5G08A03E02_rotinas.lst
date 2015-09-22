@@ -29,10 +29,11 @@
 202e 0000 ; "CHTOI>"		;	CHTOI >
 4019 0000 ; "chtoiA<"		;	chtoiA  <
 4020 0000 ; "chtoiB<"		;	chtoiB  <
-4021 0000 ; "chtoiWordA<"		;	chtoiWordA <
-4022 0000 ; "chtoiWordB<"		;	chtoiWordB <
-4023 0000 ; "chtoiWordC<"		;	chtoiWordC <
-4024 0000 ; "chtoiWordD<"		;	chtoiWordD <
+4021 0000 ; "varNumberOrLetter<"		;	varNumberOrLetter <
+4022 0000 ; "chtoiWordA<"		;	chtoiWordA <
+4023 0000 ; "chtoiWordB<"		;	chtoiWordB <
+4024 0000 ; "chtoiWordC<"		;	chtoiWordC <
+4025 0000 ; "chtoiWordD<"		;	chtoiWordD <
 
 				;	& /0000
 ;**************************** PACK() ***************************************;
@@ -71,81 +72,55 @@ a02c b00a		;	fimSubRotina  RS UNPACK
 d030 8019		;	          LD  chtoiA
 a032 a00a		;	          SC UNPACK
 d034 8016		;	          LD unpackA
-d036 9021		;	          MM chtoiWordA
-d038 5007		;	          - h0047
-a03a 203e		;	          JN continua1
-a03c 00c0		;	          JP errorChtoi
-d03e 8021		;	continua1 LD chtoiWordA
-d040 5006		;	          - h003A
-a042 204e		;	          JN isNumber
-d044 8021		;	          LD chtoiWordA
-d046 5005		;	          - h0037
-d048 6008		;	shift     * h1000
-d04a 9021		;	          MM chtoiWordA
-a04c 0054		;	          JP nextWord
-d04e 8021		;	isNumber  LD chtoiWordA
-d050 5004		;	          - h0030
-a052 0048		;	          JP shift
+a036 a068		;	          SC NumberOrLetter
+a038 2066		;	          JN endChtoi
+d03a 6008		;	          * h1000
+d03c 9022		;	          MM chtoiWordA
+          
 ;Proxima palavra
-d054 8017		;	nextWord  LD unpackB
-d056 9022		;	            MM chtoiWordB
-d058 5007		;	            - h0047
-a05a 205e		;	            JN continua2
-a05c 00c0		;	            JP errorChtoi
-d05e 8022		;	continua2   LD chtoiWordB
-d060 5006		;	            - h003A
-a062 206e		;	            JN isNumber2
-d064 8022		;	            LD chtoiWordB
-d066 5005		;	            - h0037
-d068 6009		;	shift2     * h0100
-d06a 9022		;	            MM chtoiWordB
-a06c 0074		;	            JP nextWord2
-d06e 8022		;	isNumber2  LD chtoiWordB
-d070 5004		;	            - h0030
-a072 0068		;	            JP shift2
+d03e 8017		;	          LD unpackB
+a040 a068		;	          SC NumberOrLetter
+a042 2066		;	          JN endChtoi
+d044 6009		;	          * h0100
+d046 9023		;	          MM chtoiWordB
 ;Proxima palavra
-d074 8020		;	 nextWord2  LD chtoiB
-a076 a00a		;	            SC UNPACK
-d078 8016		;	            LD unpackA
-d07a 9023		;	            MM chtoiWordC
-d07c 5007		;	            - h0047
-a07e 2082		;	            JN continua3
-a080 00c0		;	            JP errorChtoi
-d082 8023		;	continua3   LD chtoiWordC
-d084 5006		;	            - h003A
-a086 2092		;	            JN isNumber3
-d088 8023		;	            LD chtoiWordC
-d08a 5005		;	            - h0037
-d08c 6003		;	shift3      * h0010
-d08e 9023		;	            MM chtoiWordC
-a090 0098		;	            JP nextWord3
-d092 8023		;	isNumber3   LD chtoiWordC
-d094 5004		;	            - h0030
-a096 008c		;	            JP shift3
+d048 8020		;	            LD chtoiB
+a04a a00a		;	            SC UNPACK
+d04c 8016		;	            LD unpackA
+a04e a068		;	            SC NumberOrLetter
+a050 2066		;	            JN endChtoi
+d052 6003		;	            * h0010
+d054 9024		;	            MM chtoiWordC
+           
 ;Proxima palavra
-d098 8017		;	nextWord3   LD unpackB
-d09a 9024		;	            MM chtoiWordD
-d09c 5007		;	            - h0047
-a09e 20a2		;	            JN continua4
-a0a0 00c0		;	            JP errorChtoi
-d0a2 8024		;	continua4   LD chtoiWordD
-d0a4 5006		;	            - h003A
-a0a6 20b0		;	            JN isNumber4
-d0a8 8024		;	            LD chtoiWordD
-d0aa 5005		;	            - h0037
-d0ac 9024		;	shift4      MM chtoiWordD
-a0ae 00b6		;	            JP addAll
-d0b0 8024		;	isNumber4   LD chtoiWordD
-d0b2 5004		;	            - h0030
-a0b4 00ac		;	            JP shift4
+d056 8017		;	            LD unpackB
+a058 a068		;	            SC NumberOrLetter
+a05a 2066		;	            JN endChtoi
+d05c 9025		;	            MM chtoiWordD
 ;Agrupar os nibbles
-d0b6 8021		;	addAll      LD chtoiWordA
-d0b8 4022		;	            + chtoiWordB
-d0ba 4023		;	            + chtoiWordC
-d0bc 4024		;	            + chtoiWordD
-a0be b02e		;	endChtoi    RS CHTOI
+d05e 8022		;	addAll      LD chtoiWordA
+d060 4023		;	            + chtoiWordB
+d062 4024		;	            + chtoiWordC
+d064 4025		;	            + chtoiWordD
+a066 b02e		;	endChtoi    RS CHTOI
 
-d0c0 8011		;	errorChtoi  LD hFFFF
-a0c2 00be		;	            JP endChtoi
-  
+
+8068 0000		;	NumberOrLetter $ /0001   0
+				;	NumberOrLetter $ /0001
+d06a 9021		;	          MM varNumberOrLetter
+d06c 5007		;	          - h0047
+a06e 2072		;	          JN continua1
+a070 0084		;	          JP errorChtoi
+d072 8021		;	continua1 LD varNumberOrLetter
+d074 5006		;	          - h003A
+a076 207e		;	          JN isNumber
+d078 8021		;	          LD varNumberOrLetter
+d07a 5005		;	          - h0037
+a07c 0086		;	          JP EndNumberOrLetter
+d07e 8021		;	isNumber  LD varNumberOrLetter
+d080 5004		;	          - h0030
+a082 0086		;	          JP EndNumberOrLetter
+d084 8011		;	errorChtoi        LD hFFFF
+a086 b068		;	EndNumberOrLetter RS NumberOrLetter
+
 

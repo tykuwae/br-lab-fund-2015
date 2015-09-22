@@ -16,8 +16,8 @@
 				;	& /0000 ;ANTES ERA @ /0000. SUBSTITUÍDO POR & /0000 APÓS COMENTÁRIO EM AULA SOBRE BUG.
 
 a000 0008		;	MAIN  JP  INICIO
-8002 4142		;	  varChtoiA K 'AB
-8004 3132		;	  varChtoiB K '12
+8002 4641		;	  varChtoiA K 'FA
+8004 4641		;	  varChtoiB K 'FA
 8006 0000		;	  varChtoiAB $ /0001   0
 				;	  varChtoiAB $ /0001
 ;******INICIO DO PROGRAMA******
