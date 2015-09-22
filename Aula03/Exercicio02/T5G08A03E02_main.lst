@@ -15,19 +15,97 @@
 
 				;	& /0000 ;ANTES ERA @ /0000. SUBSTITUÍDO POR & /0000 APÓS COMENTÁRIO EM AULA SOBRE BUG.
 
-a000 0008		;	MAIN  JP  INICIO
-8002 4641		;	  varChtoiA K 'FA
-8004 4641		;	  varChtoiB K 'FA
-8006 0000		;	  varChtoiAB $ /0001   0
+
+a000 001c		;	MAIN  JP  INICIO
+  ; varChtoiA K 'FA
+  ; varChtoiB K 'FA
+8002 0000		;	  RES1       $ /0001   0
+				;	  RES1       $ /0001
+8004 0000		;	  RES2       $ /0001   0
+				;	  RES2       $ /0001
+8006 1234		;	  stringTest K /1234
+8008 0010		;	  h0010      K /0010
+800a 000a		;	  h000A      K /000A
+800c 0037		;	  h0037      K /0037
+800e 0030		;	  h0030      K /0030
+8010 0100		;	  h0100      k /0100
+8012 0000		;	  varChtoiAB $ /0001   0
 				;	  varChtoiAB $ /0001
+8014 0000		;	  A1         $ /0001   0
+				;	  A1         $ /0001
+8016 0000		;	  A2         $ /0001   0
+				;	  A2         $ /0001
+8018 0000		;	  B1         $ /0001   0
+				;	  B1         $ /0001
+801a 0000		;	  B2         $ /0001   0
+				;	  B2         $ /0001
+
 ;******INICIO DO PROGRAMA******
 ;Utilizaremos MEMCOPY para passar a string declarado no main para seu devido lugar
-a008 8002		;	INICIO  LD  varChtoiA
-d00a 9007		;	        MM chtoiA
-a00c 8004		;	        LD  varChtoiB
-d00e 9008		;	        MM chtoiB
-d010 a006		;	        SC  CHTOI
-a012 9006		;	        MM varChtoiAB
-a014 c014		;	FIM   HM  FIM
+a01c 8006		;	INICIO    LD stringTest
+a01e a022		;	          SC ICHTOI
+a020 c020		;	FIM   HM  FIM
 
+
+8022 0000		;	ICHTOI  $ /0001   0
+				;	ICHTOI  $ /0001
+d024 a003		;	        SC UNPACK 
+d026 8004		;	        LD unpackA
+a028 9014		;	        MM A1
+d02a 8005		;	        LD unpackB
+a02c 9018		;	        MM B1
+a02e 8014		;	        LD A1
+a030 6008		;	        * h0010
+d032 a003		;	        SC UNPACK
+d034 8004		;	        LD unpackA
+a036 9014		;	        MM A1
+d038 8005		;	        LD unpackB
+a03a 7008		;	        / h0010
+a03c 9016		;	        MM A2
+a03e 8018		;	        LD B1
+a040 6008		;	        * h0010
+d042 a003		;	        SC UNPACK
+d044 8004		;	        LD unpackA
+a046 9018		;	        MM B1
+d048 8005		;	        LD unpackB
+a04a 7008		;	        / h0010
+a04c 901a		;	        MM B2
+        ;apos essa etapa, as quatro secoes do numero estao separadas (ou deveriam estar, tipo 0001, 0002....)
+
+a04e 8014		;	        LD A1
+a050 a070		;	        SC CHKNUM
+a052 6010		;	        * h0100
+a054 9002		;	        MM RES1
+a056 8016		;	        LD A2
+a058 a070		;	        SC CHKNUM
+a05a 4002		;	        + RES1
+a05c 9002		;	        MM RES1
+
+a05e 8018		;	        LD B1
+a060 a070		;	        SC CHKNUM
+a062 6010		;	        * h0100
+a064 9004		;	        MM RES2
+a066 801a		;	        LD B2
+a068 a070		;	        SC CHKNUM
+a06a 4004		;	        + RES2
+a06c 9004		;	        MM RES2
+
+a06e b022		;	        RS ICHTOI
+        ;Fim de rotina.
+
+
+
+
+
+
+8070 0000		;	CHKNUM  $ /0001   0
+				;	CHKNUM  $ /0001
+a072 500a		;	        - h000A
+a074 207a		;	        JN EHNUM
+a076 400c		;	        + h0037
+a078 b070		;	ENDCHK  RS CHKNUM
+
+a07a 400a		;	EHNUM   + h000A
+a07c 400e		;	        + h0030
+a07e 0078		;	        JP ENDCHK
 
