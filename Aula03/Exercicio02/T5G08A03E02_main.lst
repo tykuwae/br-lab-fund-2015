@@ -1,0 +1,51 @@
+;***** variaveis para PACK() *****
+4000 0000 ; "packA<"		;	packA   <
+4001 0000 ; "packB<"		;	packB   < 
+4002 0000 ; "PACK<"		;	PACK    <
+
+;***** variaveis para UNPACK() *****
+4003 0000 ; "UNPACK<"		;	UNPACK  <
+4004 0000 ; "unpackA<"		;	unpackA  <
+4005 0000 ; "unpackB<"		;	unpackB  <
+
+;***** variaveis para CHTOI() *****
+4006 0000 ; "CHTOI<"		;	CHTOI <
+4007 0000 ; "chtoiA<"		;	chtoiA  <
+4008 0000 ; "chtoiB<"		;	chtoiB  <
+
+;***** variaveis para ITOCH() *****
+4009 0000 ; "ITOCH<"		;	ITOCH <
+4010 0000 ; "RES1<"		;	RES1 <
+4011 0000 ; "RES2<"		;	RES2 < 
+				;	& /0000 ;ANTES ERA @ /0000. SUBSTITUÍDO POR & /0000 APÓS COMENTÁRIO EM AULA SOBRE BUG.
+
+
+a000 000e		;	MAIN  JP  INICIO
+8002 4641		;	  varChtoiA K 'FA
+8004 4641		;	  varChtoiB K 'FA
+8006 0000		;	  varChtoiAB $ /0001   0
+				;	  varChtoiAB $ /0001
+8008 7fff		;	  varItochAB      K /7FFF
+800a 0000		;	  varItochA       $ /0001   0
+				;	  varItochA       $ /0001
+800c 0000		;	  varItochB       $ /0001   0
+				;	  varItochB       $ /0001
+  
+;******INICIO DO PROGRAMA******
+;Utilizaremos MEMCOPY para passar a string declarado no main para seu devido lugar
+a00e 8008		;	INICIO    LD varItochAB
+d010 a009		;	          SC ITOCH
+d012 8010		;	          LD RES1
+a014 900a		;	          MM varItochA
+d016 8011		;	          LD RES2
+a018 900c		;	          MM varItochB
+          
+a01a 8002		;	          LD varChtoiA
+d01c 9007		;	          MM chtoiA
+a01e 8004		;	          LD varChtoiB
+d020 9008		;	          MM chtoiB
+d022 a006		;	          SC CHTOI
+a024 9006		;	          MM varChtoiAB
+a026 c026		;	FIM   HM  FIM
+
+

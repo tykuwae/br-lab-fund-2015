@@ -1,0 +1,112 @@
+;***** constantes *****
+2000 0000 ; "h0000>"		;	h0000 >
+2002 0000 ; "h0001>"		;	h0001 >
+2004 0000 ; "h0002>"		;	h0002 >
+201c 0000 ; "h0010>"		;	h0010 >
+2006 0000 ; "h000A>"		;	h000A >
+2010 0000 ; "h0030>"		;	h0030 >
+2012 0000 ; "h0037>"		;	h0037 >
+2014 0000 ; "h003A>"		;	h003A >
+2016 0000 ; "h0041>"		;	h0041 >
+2018 0000 ; "h0047>"		;	h0047 >
+201a 0000 ; "h1000>"		;	h1000 >
+2008 0000 ; "h0100>"		;	h0100 >
+200a 0000 ; "hFF00>"		;	hFF00 >
+201e 0000 ; "hFFFF>"		;	hFFFF >
+200c 0000 ; "AmLoad>"		;	AmLoad >
+200e 0000 ; "AmDownload>"		;	AmDownload >
+
+;***** variaveis para PACK() *****
+2020 0000 ; "packA>"		;	packA   >
+2022 0000 ; "packB>"		;	packB   > 
+
+
+;***** variaveis para UNPACK() *****
+2024 0000 ; "unpackA>"		;	unpackA >
+2026 0000 ; "unpackB>"		;	unpackB >
+2028 0000 ; "temp>"		;	temp >
+
+;***** variaveis para CHTOI() *****
+202a 0000 ; "chtoiA>"		;	chtoiA  >
+202c 0000 ; "chtoiB>"		;	chtoiB  >
+2030 0000 ; "chtoiWordA>"		;	chtoiWordA >
+2032 0000 ; "chtoiWordB>"		;	chtoiWordB >
+2034 0000 ; "chtoiWordC>"		;	chtoiWordC >
+2036 0000 ; "chtoiWordD>"		;	chtoiWordD >
+202e 0000 ; "varNumberOrLetter>"		;	varNumberOrLetter >
+
+;***** variaveis para ITOCH() *****
+203a 0000 ; "RES1>"		;	RES1       >
+203c 0000 ; "RES2>"		;	RES2       >
+203e 0000 ; "A1>"		;	A1         >
+2040 0000 ; "A2>"		;	A2         >
+2042 0000 ; "B1>"		;	B1         >
+2044 0000 ; "B2>"		;	B2         >
+
+				;	& /0000
+;***** constantes *****
+8000 0000		;	h0000 K /0000
+8002 0001		;	h0001 K /0001 
+8004 0002		;	h0002 K /0002  
+8006 000a		;	h000A K /000A
+8008 0100		;	h0100 K /0100  
+800a ff00		;	hFF00 K /FF00
+800c 8000		;	AmLoad    K /8000
+800e 9000		;	AmDownload k /9000
+8010 0030		;	h0030 K /0030
+8012 0037		;	h0037 K /0037 
+8014 003a		;	h003A K /003A 
+8016 0041		;	h0041 K /0041
+8018 0047		;	h0047 K /0047 
+801a 1000		;	h1000 K /1000
+801c 0010		;	h0010 K /0010
+801e ffff		;	hFFFF K /FFFF
+
+
+;***** variaveis para PACK() *****
+8020 0000		;	packA $ /0001 ;entrada 1 de PACK      0
+				;	packA $ /0001 ;entrada 1 de PACK   
+8022 0000		;	packB $ /0001 ;entrada 2 de PACK           0
+				;	packB $ /0001 ;entrada 2 de PACK        
+
+;***** variaveis para UNPACK() *****
+8024 0000		;	unpackA $ /0001   0
+				;	unpackA $ /0001
+8026 0000		;	unpackB $ /0001   0
+				;	unpackB $ /0001
+8028 0000		;	temp $ /0001   0
+				;	temp $ /0001
+
+;***** variaveis para CHTOI() *****
+802a 0000		;	chtoiA  $ /0001 ; /3132   0
+				;	chtoiA  $ /0001 ; /3132
+802c 0000		;	chtoiB  $ /0001 ; /3334   0
+				;	chtoiB  $ /0001 ; /3334
+802e 0000		;	varNumberOrLetter $ /0001   0
+				;	varNumberOrLetter $ /0001
+
+8030 0000		;	chtoiWordA $ /0001 ;/0031   0
+				;	chtoiWordA $ /0001 ;/0031
+8032 0000		;	chtoiWordB $ /0001 ;/0032   0
+				;	chtoiWordB $ /0001 ;/0032
+8034 0000		;	chtoiWordC $ /0001 ;/0033   0
+				;	chtoiWordC $ /0001 ;/0033
+8036 0000		;	chtoiWordD $ /0001 ;/0034   0
+				;	chtoiWordD $ /0001 ;/0034
+8038 0000		;	chtoiFINAL $ /0001   0
+				;	chtoiFINAL $ /0001
+
+;***** variaveis para ITOCH() *****
+803a 0000		;	  RES1       $ /0001   0
+				;	  RES1       $ /0001
+803c 0000		;	  RES2       $ /0001   0
+				;	  RES2       $ /0001
+803e 0000		;	  A1         $ /0001   0
+				;	  A1         $ /0001
+8040 0000		;	  A2         $ /0001   0
+				;	  A2         $ /0001
+8042 0000		;	  B1         $ /0001   0
+				;	  B1         $ /0001
+8044 0000		;	  B2         $ /0001   0
+				;	  B2         $ /0001
+

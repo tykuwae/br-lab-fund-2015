@@ -1,0 +1,199 @@
+;***** constantes *****
+4000 0000 ; "h0000<"		;	h0000 <
+4001 0000 ; "h0001<"		;	h0001 <
+4002 0000 ; "h0002<"		;	h0002 <
+4003 0000 ; "h0010<"		;	h0010 <
+4004 0000 ; "h000A<"		;	h000A <
+4005 0000 ; "h0030<"		;	h0030 <
+4006 0000 ; "h0037<"		;	h0037 <
+4007 0000 ; "h003A<"		;	h003A <
+4008 0000 ; "h0041<"		;	h0041 <
+4009 0000 ; "h0047<"		;	h0047 <
+4010 0000 ; "h1000<"		;	h1000 <
+4011 0000 ; "h0100<"		;	h0100 <
+4012 0000 ; "hFF00<"		;	hFF00 <
+4013 0000 ; "hFFFF<"		;	hFFFF <
+4014 0000 ; "AmLoad<"		;	AmLoad <
+4015 0000 ; "AmDownload<"		;	AmDownload <
+;***** variaveis para PACK() *****
+2000 0000 ; "PACK>"		;	PACK    >
+4016 0000 ; "packA<"		;	packA   <
+4017 0000 ; "packB<"		;	packB   <  
+
+;***** variaveis para UNPACK() *****
+200a 0000 ; "UNPACK>"		;	UNPACK  >
+4018 0000 ; "unpackA<"		;	unpackA <
+4019 0000 ; "unpackB<"		;	unpackB <
+4020 0000 ; "temp<"		;	temp <
+
+;***** variaveis para CHTOI()  *****
+202e 0000 ; "CHTOI>"		;	CHTOI >
+4021 0000 ; "chtoiA<"		;	chtoiA  <
+4022 0000 ; "chtoiB<"		;	chtoiB  <
+4023 0000 ; "varNumberOrLetter<"		;	varNumberOrLetter <
+4024 0000 ; "chtoiWordA<"		;	chtoiWordA <
+4025 0000 ; "chtoiWordB<"		;	chtoiWordB <
+4026 0000 ; "chtoiWordC<"		;	chtoiWordC <
+4027 0000 ; "chtoiWordD<"		;	chtoiWordD <
+
+;***** variaveis para ITOCH() *****
+2088 0000 ; "ITOCH>"		;	  ITOCH >
+4028 0000 ; "RES1<"		;	  RES1       <
+4029 0000 ; "RES2<"		;	  RES2       <
+4030 0000 ; "A1<"		;	  A1         <
+4031 0000 ; "A2<"		;	  A2         <
+4032 0000 ; "B1<"		;	  B1         <
+4033 0000 ; "B2<"		;	  B2         <
+
+
+				;	& /0000
+;**************************** PACK() ***************************************;
+8000 0000		;	PACK      $ /0001   0
+				;	PACK      $ /0001
+d002 8016		;	          LD packA ;Carrega no acc <- packA
+d004 6011		;	          *  h0100    ; multiplca por h0100
+d006 4017		;	          +  packB
+a008 b000		;	          RS PACK
+
+;*************************** UNPACK() **************************************;
+800a 0000		;	UNPACK    $  /0001   0
+				;	UNPACK    $  /0001
+d00c 9020		;	          MM temp   ;guarda no temp
+d00e 6011		;	          *  h0100    ;shift de 2 bytes para esquerda
+d010 7011		;	          /  h0100    ;shift de 2 bytes para direita
+a012 2018		;	          JN casoNeg ;caso negativo jmp para casoNEG
+d014 9019		;	          MM unpackB
+a016 001c		;	          JP parteA ;continua para pegar a primeira parte da palavra
+d018 5012		;	casoNeg   - hFF00
+d01a 9019		;	          MM unpackB
+d01c 8020		;	parteA    LD temp
+d01e 5019		;	          - unpackB
+d020 7011		;	          / h0100
+a022 2028		;	          JN casoNeg2 ;caso negativo
+d024 9018		;	          MM unpackA
+a026 002c		;	          JP fimSubRotina
+d028 5012		;	casoNeg2  - hFF00
+d02a 9018		;	          MM unpackA
+a02c b00a		;	fimSubRotina  RS UNPACK
+
+;*************************** CHTOI() **************************************;
+
+802e 0000		;	CHTOI $ /0001   0
+				;	CHTOI $ /0001
+d030 8021		;	          LD  chtoiA
+a032 a00a		;	          SC UNPACK
+d034 8018		;	          LD unpackA
+a036 a068		;	          SC NumberOrLetter
+a038 2066		;	          JN endChtoi
+d03a 6010		;	          * h1000
+d03c 9024		;	          MM chtoiWordA
+          
+;Proxima palavra
+d03e 8019		;	          LD unpackB
+a040 a068		;	          SC NumberOrLetter
+a042 2066		;	          JN endChtoi
+d044 6011		;	          * h0100
+d046 9025		;	          MM chtoiWordB
+;Proxima palavra
+d048 8022		;	            LD chtoiB
+a04a a00a		;	            SC UNPACK
+d04c 8018		;	            LD unpackA
+a04e a068		;	            SC NumberOrLetter
+a050 2066		;	            JN endChtoi
+d052 6003		;	            * h0010
+d054 9026		;	            MM chtoiWordC
+           
+;Proxima palavra
+d056 8019		;	            LD unpackB
+a058 a068		;	            SC NumberOrLetter
+a05a 2066		;	            JN endChtoi
+d05c 9027		;	            MM chtoiWordD
+;Agrupar os nibbles
+d05e 8024		;	addAll      LD chtoiWordA
+d060 4025		;	            + chtoiWordB
+d062 4026		;	            + chtoiWordC
+d064 4027		;	            + chtoiWordD
+a066 b02e		;	endChtoi    RS CHTOI
+
+
+8068 0000		;	NumberOrLetter $ /0001   0
+				;	NumberOrLetter $ /0001
+d06a 9023		;	          MM varNumberOrLetter
+d06c 5009		;	          - h0047
+a06e 2072		;	          JN continua1
+a070 0084		;	          JP errorChtoi
+d072 8023		;	continua1 LD varNumberOrLetter
+d074 5007		;	          - h003A
+a076 207e		;	          JN isNumber
+d078 8023		;	          LD varNumberOrLetter
+d07a 5006		;	          - h0037
+a07c 0086		;	          JP EndNumberOrLetter
+d07e 8023		;	isNumber  LD varNumberOrLetter
+d080 5005		;	          - h0030
+a082 0086		;	          JP EndNumberOrLetter
+d084 8013		;	errorChtoi        LD hFFFF
+a086 b068		;	EndNumberOrLetter RS NumberOrLetter
+
+
+;************ ITOCH() *************
+
+
+8088 0000		;	ITOCH  $ /0001   0
+				;	ITOCH  $ /0001
+a08a a00a		;	        SC UNPACK 
+d08c 8018		;	        LD unpackA
+d08e 9030		;	        MM A1
+d090 8019		;	        LD unpackB
+d092 9032		;	        MM B1
+d094 8030		;	        LD A1
+d096 6003		;	        * h0010
+a098 a00a		;	        SC UNPACK
+d09a 8018		;	        LD unpackA
+d09c 9030		;	        MM A1
+d09e 8019		;	        LD unpackB
+d0a0 7003		;	        / h0010
+d0a2 9031		;	        MM A2
+d0a4 8032		;	        LD B1
+d0a6 6003		;	        * h0010
+a0a8 a00a		;	        SC UNPACK
+d0aa 8018		;	        LD unpackA
+d0ac 9032		;	        MM B1
+d0ae 8019		;	        LD unpackB
+d0b0 7003		;	        / h0010
+d0b2 9033		;	        MM B2
+        ;apos essa etapa, as quatro secoes do numero estao separadas (ou deveriam estar, tipo 0001, 0002....)
+
+d0b4 8030		;	        LD A1
+a0b6 a0d6		;	        SC CHKNUM
+d0b8 6011		;	        * h0100
+d0ba 9028		;	        MM RES1
+d0bc 8031		;	        LD A2
+a0be a0d6		;	        SC CHKNUM
+d0c0 4028		;	        + RES1
+d0c2 9028		;	        MM RES1
+
+d0c4 8032		;	        LD B1
+a0c6 a0d6		;	        SC CHKNUM
+d0c8 6011		;	        * h0100
+d0ca 9029		;	        MM RES2
+d0cc 8033		;	        LD B2
+a0ce a0d6		;	        SC CHKNUM
+d0d0 4029		;	        + RES2
+d0d2 9029		;	        MM RES2
+
+a0d4 b088		;	        RS ITOCH
+        ;Fim de rotina.
+
+
+80d6 0000		;	CHKNUM  $ /0001   0
+				;	CHKNUM  $ /0001
+d0d8 5004		;	        - h000A
+a0da 20e0		;	        JN EHNUM
+d0dc 4008		;	        + h0041
+a0de b0d6		;	ENDCHK  RS CHKNUM
+
+d0e0 4004		;	EHNUM   + h000A
+d0e2 4005		;	        + h0030
+a0e4 00de		;	        JP ENDCHK
+
+

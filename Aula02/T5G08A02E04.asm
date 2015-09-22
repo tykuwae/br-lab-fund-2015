@@ -23,8 +23,8 @@ A10       $  /0001
 B10       $  /0001
 ;variaveis da funcao UNPACK
 temp      $  /0001
-sUnpackA  $  /0001 
-sUnpackB  $  /0001
+unpackA  $  /0001 
+unpackB  $  /0001
 
 ;Constants
 um        K  /0001
@@ -44,14 +44,14 @@ fim       HM fim
 ; ****** FIM DO PROGRAMA ****** ;
 
 STRCMP    $  /0001
-          LD AmEnd1 ;Pega primeiro elemento
+inicio2    LD AmEnd1 ;Pega primeiro elemento
           +  AmLoad ;soma com instrução de colocar no acc
           MM next1
 next1     $  /0001
           SC UNPACK   ;chama surotina unpack()
-          LD sUnpackA
+          LD unpackA
           MM A1
-          LD sUnpackB
+          LD unpackB
           MM B1
 
           LD AmEnd2 ;Carreg primeira palavra da string2 no acc
@@ -59,9 +59,9 @@ next1     $  /0001
           MM next2
 next2     $  /0001
           SC UNPACK   ;chama surotina unpack()
-          LD sUnpackA
+          LD unpackA
           MM A10
-          LD sUnpackB
+          LD unpackB
           MM B10
           
           ;compara A1 com A10
@@ -88,7 +88,7 @@ next2     $  /0001
           +  dois
           MM AmEnd2
 
-          JP inicio
+          JP inicio2
 
 endSTRCMP      LD count 
                RS STRCMP
@@ -101,18 +101,18 @@ UNPACK    $  /0001
           *  cemH    ;shift de 2 bytes para esquerda
           /  cemH    ;shift de 2 bytes para direita
           JN casoNeg ;caso negativo jmp para casoNEG
-          MM sUnpackB
+          MM unpackB
           JP parteA ;continua para pegar a primeira parte da palavra
 casoNeg   - corr
-          MM sUnpackB
+          MM unpackB
 parteA    LD temp
-          - sUnpackB
+          - unpackB
           / cemH
           JN casoNeg2 ;caso negativo
-          MM sUnpackA
+          MM unpackA
           JP fimSubRotina
 casoNeg2  - corr
-          MM sUnpackA
+          MM unpackA
 fimSubRotina RS UNPACK
 ; *** end UNPACK() ***;
 

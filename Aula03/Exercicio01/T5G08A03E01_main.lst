@@ -1,0 +1,97 @@
+;***** variaveis para PACK() *****
+4000 0000 ; "packA<"		;	packA   <
+4001 0000 ; "packB<"		;	packB   < 
+4002 0000 ; "PACK<"		;	PACK    <
+
+;***** variaveis para UNPACK() *****
+4003 0000 ; "UNPACK<"		;	UNPACK  <
+4004 0000 ; "unpackA<"		;	unpackA  <
+4005 0000 ; "unpackB<"		;	unpackB  <
+
+;***** variaveis para STRCMP() *****
+4006 0000 ; "STRCMP<"		;	STRCMP    <
+4007 0000 ; "AmEnd1<"		;	AmEnd1    <
+4008 0000 ; "AmEnd2<"		;	AmEnd2    <
+
+;***** variaveis para MEMCOPY() *****
+4009 0000 ; "MEMCOPY<"		;	MEMCOPY <
+4010 0000 ; "numeroDeBytes<"		;	numeroDeBytes <
+4011 0000 ; "origem<"		;	origem  <
+4012 0000 ; "destino<"		;	destino <
+
+
+				;	& /0000 ;ANTES ERA @ /0000. SUBSTITUÍDO POR & /0000 APÓS COMENTÁRIO EM AULA SOBRE BUG.
+
+a000 0036		;	MAIN  JP  INICIO
+8002 0010		;	    varPackA  K   /0010
+8004 0064		;	    varPackB  K   /0064
+8006 0000		;	    varPackAB $  /0001   0
+				;	    varPackAB $  /0001
+
+8008 1234		;	    varUnpackAB K /1234
+800a 0000		;	    varUnpackA  $  /0001   0
+				;	    varUnpackA  $  /0001
+800c 0000		;	    varUnpackB  $  /0001   0
+				;	    varUnpackB  $  /0001
+
+800e 7661		;	    varString1   K  'va ;E
+8010 6963		;	              K  'ic ;10
+8012 6f61		;	              K  'oa ;12
+8014 6600		;	              K  /6600 ;14
+8016 0000		;	              K  /0000 ;16
+8018 0000		;	              K  /0000 ;18
+801a 0000		;	              K  /0000 ;1A
+801c 0000		;	              K  /0000 ;1C
+801e 7661		;	    varString2   K  'va 
+8020 6963		;	              K  'ic
+8022 6f6d		;	              K  'om
+8024 6600		;	              K  /6600
+8026 0000		;	              K  /0000
+8028 0000		;	              K  /0000
+802a 0000		;	              K  /0000
+802c 0000		;	              K  /0000
+802e 0000		;	    varStrComp $ /0001   0
+				;	    varStrComp $ /0001
+
+8030 0008		;	    varNumeroDeBytes K /0008
+a032 000e		;	    varEnd1    K varString1
+a034 001e		;	    varEnd2    K varString2
+
+;******INICIO DO PROGRAMA******
+;Utilizaremos MEMCOPY para passar a string declarado no main para seu devido lugar
+a036 8030		;	INICIO  LD  varNumeroDeBytes
+d038 9010		;	        MM  numeroDeBytes
+a03a 8032		;	        LD  varEnd1
+d03c 9011		;	        MM origem
+d03e 8007		;	        LD AmEnd1
+d040 9012		;	        MM destino
+d042 a009		;	        SC  MEMCOPY
+        ;Carregou primeira string
+a044 8030		;	        LD  varNumeroDeBytes
+d046 9010		;	        MM  numeroDeBytes
+a048 8034		;	        LD  varEnd2
+d04a 9011		;	        MM origem
+d04c 8008		;	        LD AmEnd2
+d04e 9012		;	        MM destino
+d050 a009		;	        SC  MEMCOPY
+        ;Carregou segunda string
+
+d052 a006		;	        SC STRCMP
+a054 902e		;	        MM varStrComp
+
+a056 8002		;	        LD  varPackA
+d058 9000		;	        MM  packA
+a05a 8004		;	        LD  varPackB
+d05c 9001		;	        MM  packB
+d05e a002		;	        SC  PACK
+a060 9006		;	        MM  varPackAB
+
+a062 8008		;	        LD  varUnpackAB
+d064 a003		;	        SC  UNPACK
+d066 8004		;	        LD  unpackA
+a068 900a		;	        MM varUnpackA
+d06a 8005		;	        LD  unpackB
+a06c 900c		;	        MM varUnpackB
+
+a06e c06e		;	FIM   HM  FIM
+
