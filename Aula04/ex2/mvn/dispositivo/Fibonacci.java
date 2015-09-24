@@ -10,7 +10,7 @@ package mvn.dispositivo;
  *
  * @author mjunior
  */
-public class Fibonacci {
+public class Fibonacci implements Dispositivo {
 
   public Fibonacci (){
     //      Construtor: inicializa em 0 os atributos v0 e v1, os primeiros
