@@ -12,6 +12,16 @@ public class TrianguloEquilatero extends TrianguloIsosceles {
     public boolean validar() {
         // TODO: verificar se equilatero
 		//Nao esquecer de chamar tambem a classe pai para fazer a validacao!
+		float ladoA,ladoB,ladoC;
+		if(Poligono.validar()){
+			ladoA = Poligono.lados[0];
+			ladoB = Poligono.lados[1];
+			ladoC = Poligono.lados[2];
+			return (ladoA==ladoB) && (ladoB==ladoC);
+		}
+		
+		return false;
+		
     }
     
 }

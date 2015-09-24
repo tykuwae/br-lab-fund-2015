@@ -18,6 +18,20 @@ public class TrianguloEscaleno extends Triangulo {
     public boolean validar() {
         // TODO: verificar se escaleno
 		//Nao esquecer de chamar tambem a classe pai para fazer a validacao!
+		
+		float ladoA,ladoB,ladoC;
+		if(Poligono.validar()){
+			ladoA = Poligono.lados[0];
+			ladoB = Poligono.lados[1];
+			ladoC = Poligono.lados[2];
+			boolean resultado;
+			resultado = (ladoA != ladoB);
+			resultado = resultado && (ladoB!= ladoC);
+			resultado = resultado && (ladoA!= ladoC);
+			return resultado;
+		}
+		return false;
+			
     }
     
 }
