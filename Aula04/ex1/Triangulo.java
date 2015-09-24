@@ -13,7 +13,7 @@ public class Triangulo extends Poligono {
          * de dois lados deve ser MENOR que o
          * terceiro lado.
          */
-        if (Super.validar() &&
+        if (super.validar() &&
             lados[1] + lados[2] < lados[3] && 
             lados[1] + lados[3] < lados[2] &&
             lados[3] + lados[2] < lados[1])
