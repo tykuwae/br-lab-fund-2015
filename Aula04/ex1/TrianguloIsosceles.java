@@ -9,6 +9,10 @@ public class TrianguloIsosceles extends Triangulo {
     }
 
     @Override
+	/**
+	*	Executa a validação do triângulo. Como o próprio construtor já impõe que o triângulo seja isósceles, basta verificar se o triângulo em si é consistente.
+	* @author Grupo
+	*/
     public boolean validar() {
         // TODO: verificar se isosceles
       return super.validar();

@@ -9,6 +9,11 @@ public class TrianguloEquilatero extends TrianguloIsosceles {
     }
 
     @Override
+	/**
+	*	Executa a validação do triângulo equilátero. Indiretamente, é verificada a validade do polígono (através da verificação de validade do triângulo).
+		Ao final, verifica-se a igualdade entre os lados.
+	* @author Grupo
+	*/
     public boolean validar() {
         // TODO: verificar se equilatero
 		//Nao esquecer de chamar tambem a classe pai para fazer a validacao!

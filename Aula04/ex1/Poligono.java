@@ -9,7 +9,10 @@ public class Poligono {
         this.lados = lados;
     }
     
-    
+    /**
+	*	Valida o polígono. Para que o array descreva um polígono consistente, basta que ele tenha mais de três entradas.
+	* @author Grupo
+	*/
     public boolean validar(){
         /* Não sei que forma é, então o melhor
          * que eu posso fazer é verificar se possui
