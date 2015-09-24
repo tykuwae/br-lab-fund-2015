@@ -21,9 +21,9 @@ public class TrianguloEscaleno extends Triangulo {
 		
 		float ladoA,ladoB,ladoC;
 		if(super.validar()){
-			ladoA = Poligono.lados[0];
-			ladoB = Poligono.lados[1];
-			ladoC = Poligono.lados[2];
+			ladoA = lados[0];
+			ladoB = lados[1];
+			ladoC = lados[2];
 			boolean resultado;
 			resultado = (ladoA != ladoB);
 			resultado = resultado && (ladoB!= ladoC);

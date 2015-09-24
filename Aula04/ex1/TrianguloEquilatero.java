@@ -14,9 +14,9 @@ public class TrianguloEquilatero extends TrianguloIsosceles {
 		//Nao esquecer de chamar tambem a classe pai para fazer a validacao!
 		float ladoA,ladoB,ladoC;
 		if(super.validar()){
-			ladoA = Poligono.lados[0];
-			ladoB = Poligono.lados[1];
-			ladoC = Poligono.lados[2];
+			ladoA = lados[0];
+			ladoB = lados[1];
+			ladoC = lados[2];
 			return (ladoA==ladoB) && (ladoB==ladoC);
 		}
 		
