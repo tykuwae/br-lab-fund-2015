@@ -15,7 +15,10 @@ public class Poligono {
          * que eu posso fazer é verificar se possui
          * pelo menos 3 lados.
          */
-		 
+        if (lados.length < 3)
+            return false;
+        else
+	       return true;
         // TODO: verificar se forma tem 3 lados
     }
     
