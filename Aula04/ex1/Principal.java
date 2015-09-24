@@ -15,6 +15,11 @@ public class Principal {
 		Triangulo t = new TrianguloEquilatero(2);
 		t.imprime();
 		
-        
+        TrianguloIsosceles i = new TrianguloIsosceles(2, 4);
+        i.imprime();
+
+        TrianguloEscaleno e = new TrianguloEscaleno(2,3,4);
+        e.imprime();
+
     }
 }

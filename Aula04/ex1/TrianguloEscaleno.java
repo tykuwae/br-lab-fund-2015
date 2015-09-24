@@ -24,6 +24,7 @@ public class TrianguloEscaleno extends Triangulo {
 			ladoA = lados[0];
 			ladoB = lados[1];
 			ladoC = lados[2];
+
 			boolean resultado;
 			resultado = (ladoA != ladoB);
 			resultado = resultado && (ladoB!= ladoC);

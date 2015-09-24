@@ -14,9 +14,9 @@ public class Triangulo extends Poligono {
          * terceiro lado.
          */
         if (super.validar() &&
-            lados[1] + lados[2] < lados[3] && 
-            lados[1] + lados[3] < lados[2] &&
-            lados[3] + lados[2] < lados[1])
+            lados[0] + lados[1] >= lados[2] && 
+            lados[0] + lados[2] >= lados[1] &&
+            lados[2] + lados[1] >= lados[0])
             return true;  
         else 
             return false;
