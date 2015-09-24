@@ -18,7 +18,7 @@ public class Principal {
         TrianguloIsosceles i = new TrianguloIsosceles(2, 4);
         i.imprime();
 
-        TrianguloEscaleno e = new TrianguloEscaleno(2,3,4);
+        TrianguloEscaleno e = new TrianguloEscaleno(2,2,4);
         e.imprime();
 
     }
