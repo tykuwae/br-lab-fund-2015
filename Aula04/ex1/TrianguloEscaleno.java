@@ -20,7 +20,7 @@ public class TrianguloEscaleno extends Triangulo {
 		//Nao esquecer de chamar tambem a classe pai para fazer a validacao!
 		
 		float ladoA,ladoB,ladoC;
-		if(Poligono.validar()){
+		if(super.validar()){
 			ladoA = Poligono.lados[0];
 			ladoB = Poligono.lados[1];
 			ladoC = Poligono.lados[2];
