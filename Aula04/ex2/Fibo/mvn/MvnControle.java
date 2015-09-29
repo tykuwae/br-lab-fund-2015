@@ -85,7 +85,19 @@ public class MvnControle {
     // ao
     // da
     // classe
-
+    
+    /**
+     * * Nome do dispositivo: Fibonacci
+     */
+    private static final String DEV_NAME_FIBONACCI = "Fibonacci";															// Este
+    // nome
+    // deve
+    // ser
+    // igual
+    // ao
+    // da
+    // classe
+    
     /**
      * * Dispositivos da MVN
      */
@@ -93,6 +105,7 @@ public class MvnControle {
         new String[]{DEV_NAME_TECLADO},
         new String[]{DEV_NAME_MONITOR},
         new String[]{DEV_NAME_IMPRESSORA},
+        new String[]{DEV_NAME_FIBONACCI},
         new String[]{
             DEV_NAME_DISCO,
             "nome do arquivo",
@@ -129,7 +142,7 @@ public class MvnControle {
     /**
      * * Gerenciador de Dispositivos da MVN
      */
-    private GerenciadorDispositivos io = null;
+    public GerenciadorDispositivos io = null;
 
     /**
      * * Painel de Controle da MVN

@@ -42,9 +42,8 @@ public class MvnPcs{
 	 */
 	public static void main(String args[]){
 		 mvnPcs = new MvnControle();
-		// painel = new PainelControle(mvnPcs, false);
-		// painel.mostrarTerminal();
-
+		 painel = new PainelControle(mvnPcs, false);
+		 painel.mostrarTerminal();
 
 	}
 	

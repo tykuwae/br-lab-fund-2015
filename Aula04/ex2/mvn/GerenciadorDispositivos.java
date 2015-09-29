@@ -114,6 +114,9 @@ public class GerenciadorDispositivos{
 	public static final int								TYPE_DISCO											= 3;
 	
 	
+	/** Tipos padrao de dispositivo: Fibonacci */
+	public static final int								TYPE_FIBONACCI									= 6;
+	
 	/**
 	 * Instancia a classe criando uma tabela de dispositivos vazia.<br/>
 	 * <br/>

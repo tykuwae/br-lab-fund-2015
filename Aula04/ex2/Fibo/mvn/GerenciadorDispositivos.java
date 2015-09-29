@@ -108,10 +108,13 @@ public class GerenciadorDispositivos{
 	public static final int								TYPE_MONITOR										= 1;
 	
 	/** Tipos padrao de dispositivo: impressora */
-	public static final int								TYPE_IMPRESSORA									= 2;
+	public static final int								TYPE_IMPRESSORA									    = 2;
 	
 	/** Tipos padrao de dispositivo: disco */
 	public static final int								TYPE_DISCO											= 3;
+	
+	/** Tipos padrao de dispositivo: Fibonacci */
+	public static final int								TYPE_FIBONACCI										= 6;
 	
 	
 	/**
@@ -209,7 +212,48 @@ public class GerenciadorDispositivos{
 		dispositivos.put(key, newDevice);
 	}
 	
-	
+	/**
+	 * Adiciona um dispositivo Simples no gerenciador.<br/>
+	 * <br/>
+	 * <b>Pre-condicao</b>: Os para¢metros devem ser consistentes.<br/>
+	 * <b>Pos-condicao</b>: o dispositivo sera¡ inserido na posicao
+	 * especificada substituindo o dispositivo que estiver na posicao, se
+	 * houver.
+	 * 
+	 * @param deviceType
+	 *          Tipo do dispositivo que sera¡ adicionado.
+	 * @param logicalUnit
+	 *          Unidade logica do dispositivo que sera¡ adicionado.
+	 * @param newDevice
+	 *          Dispositivo a ser adicionado.
+	 * @throws MVNException
+	 *           Caso ocorra algum erro ao remover o dispositivo.
+	 */
+	public void addDispSimples(int deviceType, int logicalUnit) throws MVNException{
+		if(deviceType < 0 || deviceType >= MAX_DEVICETYPES){
+			throw new MVNException(ERR_INVALID_DEVICETYPE);
+		}
+		if(logicalUnit < 0 || logicalUnit >= MAX_LOGICALUNITS){
+			throw new MVNException(ERR_INVALID_LOGICALUNIT);
+		}
+		switch (deviceType){
+		case 0:
+			String key = MakeHashKey(deviceType, logicalUnit);
+			dispositivos.put(key, new Teclado());
+			break;
+		case 1:
+			String key1 = MakeHashKey(deviceType, logicalUnit);
+			dispositivos.put(key1, new Monitor());
+			break;
+		case 6:
+			String key2 = MakeHashKey(deviceType, logicalUnit);
+			dispositivos.put(key2, new Fibonacci());
+			break;
+		default:
+            throw new MVNException(ERR_INVALID_DEVICETYPE);
+		}
+
+	}
 	/**
 	 * Adiciona um dispositivo no gerenciador.<br/>
 	 * <br/>
@@ -514,7 +558,7 @@ public class GerenciadorDispositivos{
 	 * @throws MVNException
 	 *           Caso o dispositivo nao esteja na tabela de dispositivos.
 	 */
-	private Dispositivo getDevice(int deviceType, int logicalUnit)
+	public Dispositivo getDevice(int deviceType, int logicalUnit)
 			throws MVNException{
 		String key = MakeHashKey(deviceType, logicalUnit);
 		if(dispositivos.containsKey(key)){

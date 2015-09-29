@@ -1,0 +1,3 @@
+javac -d ./build Fibo/mvn/**/*.java
+javac -d ./build Fibo/mvn/*.java
+jar -cvfm fibo.jar myManifest.txt MvnPcs.class
