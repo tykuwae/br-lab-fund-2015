@@ -14,45 +14,73 @@ import mvn.controle.MVNException;
  * @author mjunior
  */
 public class Fibonacci implements mvn.Dispositivo{
+    Bits8 v0, v1;
 
+    public Fibonacci() {
+        v0 = new Bits8(0);
+        v1 = new Bits8(0);
+        
+    }
+    
     @Override
     public void escrever(Bits8 in) throws MVNException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        v0=v1;
+        v1=in;
+        
+        
     }
 
     @Override
     public Bits8 ler() throws MVNException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Bits8 resultado;
+        resultado = new Bits8(0);
+        resultado.add(v0);
+        resultado.add(v1);
+        escrever(resultado);
+        return resultado;      
+        
+        //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public boolean podeLer() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return true;
     }
 
     @Override
     public boolean podeEscrever() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
 
     @Override
     public void reset() throws MVNException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        v0=null;
+        v1=v0;
+        v0 = new Bits8(0);
+        v1 = new Bits8(0);
+       
     }
 
     @Override
     public Bits8 skip(Bits8 val) throws MVNException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int n;
+        n = val.toInt();
+        while(n<0){
+            ler();
+        }
+        return ler();
+        
     }
 
     @Override
     public Bits8 position() throws MVNException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return v0;
     }
 
     @Override
     public Bits8 size() throws MVNException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return v1;
     }
     
 }
