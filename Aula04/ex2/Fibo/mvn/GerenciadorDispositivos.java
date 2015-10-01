@@ -596,7 +596,9 @@ public class GerenciadorDispositivos{
 				int tipo = ExtractDeviceTypeFromKey(key);
 				int uc = ExtractLogicalUnitFromKey(key);
 				String name = dispositivo.getClass().getSimpleName();
-				String detail = !(dispositivo instanceof Monitor || dispositivo instanceof Teclado) ? dispositivo
+				System.out.println("MANO AQUI TA OS NOME DOS DEVICE PQP CADE VC");
+				System.out.println(name);
+				String detail = !(dispositivo instanceof Monitor || dispositivo instanceof Teclado || dispositivo instanceof Fibonacci) ? dispositivo
 						.toString() : "";
 				
 				out.append(System.getProperty("line.separator"));

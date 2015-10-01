@@ -7,87 +7,80 @@
 package mvn.dispositivo;
 
 import mvn.Bits8;
-import mvn.Dispositivo;
 import mvn.controle.MVNException;
 
 /**
  *
  * @author mjunior
  */
-public class Fibonacci implements Dispositivo {
-  
-	public int v0;
-	public int v1;
-	
-  public Fibonacci (){
-    //      Construtor: inicializa em 0 os atributos v0 e v1, os primeiros
-    // números inteiros da sequência de Fibonacci
-	  v0 = 0;
-	  v1 = 0;
-  }
+public class Fibonacci implements mvn.Dispositivo{
+    Bits8 v0, v1;
 
-  public int getV1(){
-	  return v1;
-  }
-  
+    public Fibonacci() {
+        v0 = new Bits8(0);
+        v1 = new Bits8(0);
+        
+    }
+    
+    @Override
+    public void escrever(Bits8 in) throws MVNException {
 
-  public int getV0(){
-	  return v0;
-  }
-  
-  public void escrever(Bits8 in) throws MVNException {
-// - escrever: atualiza v1 para o valor passado, guardando o antigo valor
-// de v1 no atributo v0
-	  v0 = v1;
-	  v1 = in.toInt();
-  }
+        v0=v1;
+        v1=in;
+        
+        
+    }
 
+    @Override
+    public Bits8 ler() throws MVNException {
+        Bits8 resultado;
+        resultado = new Bits8(0);
+        resultado.add(v0);
+        resultado.add(v1);
+        escrever(resultado);
+        return resultado;      
+        
+        //To change body of generated methods, choose Tools | Templates.
+    }
 
-  public Bits8 ler() throws MVNException{
-	  
-	int nextFibo = v1 + v0;
-	v0 = v1;
-	v1 = nextFibo;
-	
-	return new Bits8(v1);
-	
-  // atualizando v0 e v1 como se v0+v1 tivesse sido passado como
-  // parâmetro para o método escrever.
-  //: retorna o valor seguinte da sequência de Fibonacci, v0+v1,
-  } 
+    @Override
+    public boolean podeLer() {
+       return true;
+    }
 
-  public boolean podeLer(){
-    return true;
-  } 
-  public boolean podeEscrever(){
-    return true;
-  }
-  public void reset(){
-  // reinicializa v0 e v1 em 0
-	  v0 = 0;
-	  v1 = 1;
-  } 
-  public Bits8 skip(Bits8 val) throws MVNException {
+    @Override
+    public boolean podeEscrever() {
+        return true;
+    }
 
-  // (n): salta n valores da sequência de Fibonacci, como se o
-  // método ler fosse chamado n vezes; retorna então o valor seguinte
-  // da sequência da mesma forma que seria feito com uma nova
-  // chamada do método ler
-	int n = val.toInt();
-	while (n > 1){
-		this.ler();
-		n --;
-	}
-	return this.ler();
-  } 
-  public Bits8 position() throws MVNException {
-	return null;
-  //: retorna o valor de v0
-  } 
-  public Bits8 size() throws MVNException {
-	return null;
-    //: retorna o valor de v1
-  }
+    @Override
+    public void reset() throws MVNException {
+        v0=null;
+        v1=v0;
+        v0 = new Bits8(0);
+        v1 = new Bits8(0);
+       
+    }
 
+    @Override
+    public Bits8 skip(Bits8 val) throws MVNException {
+        int n;
+        n = val.toInt();
+        while(n<0){
+            ler();
+        }
+        return ler();
+        
+    }
 
+    @Override
+    public Bits8 position() throws MVNException {
+        return v0;
+    }
+
+    @Override
+    public Bits8 size() throws MVNException {
+        return v1;
+    }
+    
 }
