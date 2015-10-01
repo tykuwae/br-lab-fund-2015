@@ -18,10 +18,18 @@ public class Poligono {
          * que eu posso fazer é verificar se possui
          * pelo menos 3 lados.
          */
-        if (lados.length < 3)
-            return false;
-        else
-	       return true;
+        // System.out.println("validou poligono");
+        boolean ok;
+        // System.out.println(lados.length);
+        if (lados.length < 3){
+            // System.out.println("entrou no if do poligono");
+            ok = false;
+        }
+        else{
+           // System.out.println("entrou no else do poligono");
+	       ok = true;
+        }
+       return ok;
         // TODO: verificar se forma tem 3 lados
     }
     

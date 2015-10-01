@@ -18,18 +18,24 @@ public class Triangulo extends Poligono {
         /* Um triangulo deve ter 3 lados e a soma
          * de dois lados deve ser MENOR que o
          * terceiro lado.
-		 
-		 
-		 
          */
+
+        // System.out.println("validou triangulo");
+        boolean ok;
         if (super.validar() &&
             lados[0] + lados[1] > lados[2] && 
             lados[0] + lados[2] > lados[1] &&
             lados[2] + lados[1] > lados[0])
-            return true;  
-        else 
-            return false; 
-        
+            {
+            // System.out.println("entrou no if do triangulo");
+            ok = true;  
+            }
+        else {
+            // System.out.println("entrou no else do triangulo");
+            ok = false; 
+        }
+        // System.out.println(ok);
+        return ok;
     }
     
     

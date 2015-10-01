@@ -1,9 +1,9 @@
 
 
-public class Retangulo extends Poligono {
+public class Retangulo extends Quadrilatero {
 	
 	public Retangulo(float ladoA, float ladoB){		
-		super(new float[]{ladoA, ladoB, ladoA, ladoB});		
+		super(ladoA, ladoB, ladoA, ladoB);		
 	}
 	
 	/**

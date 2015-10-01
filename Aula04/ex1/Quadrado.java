@@ -2,17 +2,17 @@
 
 public class Quadrado extends Retangulo {
 	
-	public Retangulo(float ladoA){		
-		super(new float[]{ladoA,ladoA});		
+	public Quadrado(float ladoA){		
+		super(ladoA,ladoA);		
 	}
 	
 	/**
 	* Como o construtor impõe os dois lados para o construtor, basta validar como um polígono.
 	* @author Grupo
 	*/
-	
+
 	@Override
-	public Quadrado validar(){
+	public boolean validar(){
 		
 		return super.validar();		
 		
