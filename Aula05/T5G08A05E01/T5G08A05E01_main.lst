@@ -1,0 +1,55 @@
+;***** variaveis para PACK() *****
+4000 0000 ; "packA<"		;	packA   <
+4001 0000 ; "packB<"		;	packB   < 
+4002 0000 ; "PACK<"		;	PACK    <
+
+;***** variaveis para UNPACK() *****
+4003 0000 ; "UNPACK<"		;	UNPACK  <
+4004 0000 ; "unpackA<"		;	unpackA  <
+4005 0000 ; "unpackB<"		;	unpackB  <
+
+;***** variaveis para STRCMP() *****
+4006 0000 ; "STRCMP<"		;	STRCMP    <
+4007 0000 ; "AmEnd1<"		;	AmEnd1    <
+4008 0000 ; "AmEnd2<"		;	AmEnd2    <
+
+;***** variaveis para MEMCOPY() *****
+4009 0000 ; "MEMCOPY<"		;	MEMCOPY <
+4010 0000 ; "numeroDeBytes<"		;	numeroDeBytes <
+4011 0000 ; "origem<"		;	origem  <
+4012 0000 ; "destino<"		;	destino <
+
+;***** variaveis para GETLINEF() *****
+
+4013 0000 ; "GETLINEF<"		;	GETLINEF <
+4014 0000 ; "GL_END<"		;	GL_END <
+4015 0000 ; "GL_UL<"		;	GL_UL <
+4016 0000 ; "GL_BUF<"		;	GL_BUF <
+
+				;	&	/0000
+a000 001a		;	MAIN	JP	START
+
+8002 0001		;	VAL_UL	K	/0001		; UL do arquivo
+8004 000a		;	VAL_BUF	K	=10			; Tamanho do buffer
+8006 0000		;	BUFFER	$	=10			; Buffer: algumas posi��es reservadas   0
+8008 0000		;	BUFFER	$	=10			; Buffer: algumas posi��es reservadas   2
+800a 0000		;	BUFFER	$	=10			; Buffer: algumas posi��es reservadas   4
+800c 0000		;	BUFFER	$	=10			; Buffer: algumas posi��es reservadas   6
+800e 0000		;	BUFFER	$	=10			; Buffer: algumas posi��es reservadas   8
+8010 0000		;	BUFFER	$	=10			; Buffer: algumas posi��es reservadas   a
+8012 0000		;	BUFFER	$	=10			; Buffer: algumas posi��es reservadas   c
+8014 0000		;	BUFFER	$	=10			; Buffer: algumas posi��es reservadas   e
+8016 0000		;	BUFFER	$	=10			; Buffer: algumas posi��es reservadas   10
+8018 0000		;	BUFFER	$	=10			; Buffer: algumas posi��es reservadas   12
+				;	BUFFER	$	=10			; Buffer: algumas posi��es reservadas
+  
+
+a01a 3006		;	START	LV	BUFFER 		; Param 1: endere�o do buffer
+d01c 9014		;			MM	GL_END
+a01e 8002		;			LD	VAL_UL		; Param 2: unidade l�gica
+d020 9015		;			MM	GL_UL
+a022 8004		;			LD	VAL_BUF		; Param 3: tamanho do buffer
+d024 9016		;			MM	GL_BUF
+d026 a013		;			SC	GETLINEF	; Chama subrotina
+a028 c028		;	END		HM	END			; fim do programa
+

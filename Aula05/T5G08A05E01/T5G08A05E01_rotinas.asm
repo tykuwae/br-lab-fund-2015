@@ -7,6 +7,18 @@ hFF00 <
 hFFFF <
 AmLoad <
 AmDownload <
+h0003 <
+;***** variaveis para GETLINEF() *****
+
+GETLINEF >
+GL_instr <
+GL_END <
+GL_UL <
+GL_BUF <
+GL_temp <
+
+GL_EOL <
+GL_EOF <
 
 ;***** variaveis para PACK() *****
 PACK    >
@@ -31,6 +43,7 @@ B10       <
 AmLoad    <
 AmEnd1    <
 AmEnd2    <
+AmGD      <
 
 ;***** variaveis para ifZAddCount() *****
 IfZAddCount >
@@ -44,6 +57,80 @@ countMemCopy    <
 moveMemCopy     <
 
 & /0000
+
+;**************************** GETLINEF() ***************************************;
+GETLINEF  $ /0001
+          LD GL_BUF
+          - h0001
+          MM GL_BUF
+          ;necessario para caso nao ter espaco
+          ;o ultimo espaco ser end of string 00
+GL_loop   JZ semEspaco
+          LD h0003 ;dispositivo de leitra 3
+          MM packA
+          LD GL_UL ;unidade logica
+          MM packB
+          SC PACK
+          +  AmGD
+          MM GETL1
+GETL1     $ /0001
+          MM GL_temp
+          SC UNPACK
+          LD unpackA
+          - GL_EOF
+          JZ EOF ;implement
+
+          LD unpackB
+          - GL_EOF
+          JZ EOF ;implement
+          ;fim da verificacao EOL/EOF
+          LD AmDownload
+          + GL_END
+          MM GETL2
+          LD GL_temp
+GETL2     $ /0001
+          LD GL_END
+          + h0002
+          MM GL_END
+          ;Atualiza o contador que conta espacos sobrando
+          LD GL_BUF
+          - h0001
+          MM GL_BUF
+          JP GL_loop
+
+endGL     RS GETLINEF
+          
+
+EOF      LD h0001
+          JP endGL
+
+semEspaco LD h0003 ;dispositivo de leitra 3
+          MM packA
+          LD GL_UL ;unidade logica
+          MM packB
+          SC PACK
+          +  AmGD
+          MM GETL4
+GETL4     $ /0001
+          SC UNPACK
+          LD unpackA
+          - GL_EOF
+          JZ EOF ;implement
+          LD unpackA
+          MM packA
+          LD h0000
+          MM packB
+          SC PACK
+          MM GL_temp  
+          LD AmDownload
+          + GL_END
+          MM GETL3
+          LD GL_temp
+GETL3     $ /0001
+          LD h0000
+          JP endGL
+
+
 ;**************************** PACK() ***************************************;
 PACK      $ /0001
           LD packA ;Carrega no acc <- packA
@@ -171,5 +258,5 @@ endMEMCOPYsuccess   LD h0000
                     RS MEMCOPY
 
 
-# Routines
+# PACK
 
