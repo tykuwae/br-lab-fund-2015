@@ -117,6 +117,10 @@ public class GerenciadorDispositivos{
 	public static final int								TYPE_FIBONACCI										= 6;
 	
 	
+        
+        
+        
+        
 	/**
 	 * Instancia a classe criando uma tabela de dispositivos vazia.<br/>
 	 * <br/>
@@ -395,10 +399,12 @@ public class GerenciadorDispositivos{
 			// se houver leia
 			outputInfo(MSG_FILE_INICIALIZATION, output);
 			fileInitialization(file);
+                        
 		}else{
 			// se nao houver entao configure o padrao
 			outputInfo(MSG_DEFAULT_INITIALIZATION, output);
 			defaultInitialization();
+                        
 		}
 	}
 	
@@ -467,6 +473,12 @@ public class GerenciadorDispositivos{
 	 */
 	public void reiniciarLeitura(int deviceType, int logicalUnit)
 			throws MVNException{
+            
+           
+            
+             
+           
+            
 	}
 	
 	
@@ -490,7 +502,12 @@ public class GerenciadorDispositivos{
 	 */
 	public Bits8 posicaoLeitura(int deviceType, int logicalUnit)
 			throws MVNException{
-		return null;
+            
+            Dispositivo dispositivo = getDevice(deviceType, logicalUnit);
+            if(!dispositivo.podeLer()) throw new MVNException();
+            
+            return dispositivo.position();
+            
 	}
 	
 	
@@ -516,7 +533,8 @@ public class GerenciadorDispositivos{
 	 */
 	public Bits8 avancarLeitura(int deviceType, int logicalUnit, int val)
 			throws MVNException{
-		return null;
+           
+           return null; 
 	}
 	
 	
@@ -538,7 +556,9 @@ public class GerenciadorDispositivos{
 	 */
 	public Bits8 tamanhoDispositivo(int deviceType, int logicalUnit)
 			throws MVNException{
-		return null;
+            
+            Dispositivo dispositivo = getDevice(deviceType, logicalUnit);            
+            return dispositivo.size();
 	}
 	
 	
@@ -626,6 +646,8 @@ public class GerenciadorDispositivos{
 	private void fileInitialization(File file) throws MVNException{
 		try{ // try..catch IOException
 			BufferedReader reader = new BufferedReader(new FileReader(file));
+                        
+                        //implementando funcionalidade de tamanho.
 			try{ // try..finally
 				// realiza parsing do arquivo linha-a-linha
 				String line;
