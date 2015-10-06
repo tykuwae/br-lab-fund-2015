@@ -59,6 +59,7 @@ moveMemCopy     <
 & /0000
 
 ;**************************** GETLINEF() ***************************************;
+
 GETLINEF  $ /0001
           LD GL_BUF
           - h0001
@@ -102,25 +103,26 @@ endGL     RS GETLINEF
           
 
 EOF      LD h0001
-          JP endGL
+         JP endGL
 
 semEspaco LD h0003 ;dispositivo de leitra 3
           MM packA
           LD GL_UL ;unidade logica
           MM packB
-          SC PACK
-          +  AmGD
+          SC PACK ;03UL
+          +  AmGD ;D000
           MM GETL4
 GETL4     $ /0001
           SC UNPACK
           LD unpackA
           - GL_EOF
-          JZ EOF ;implement
-          LD unpackA
-          MM packA
+          JZ EOF
+          ;Oque esta comentando eh para caso o fim da palavar seja apenas 00, e nao 0000
+          ; LD unpackA
+          ; MM packA
           LD h0000
-          MM packB
-          SC PACK
+          ; MM packB
+          ; SC PACK
           MM GL_temp  
           LD AmDownload
           + GL_END
