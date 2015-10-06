@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mvn.Bits8;
 import mvn.Dispositivo;
 import mvn.controle.MVNException;
@@ -74,7 +76,8 @@ public class Disco implements Dispositivo{
 	
 	/*** Fluxo de saida de dados */
 	private FileOutputStream		outFile;
-	
+        
+        private int posicao;
 	
 	/**
 	 * Cria um disco obtendo informacoes de um arquivo.<br/>
@@ -107,7 +110,7 @@ public class Disco implements Dispositivo{
 		this.arquivo = new File(arquivo);
 		outFile = null;
 		inFile = null;
-		
+		posicao = 0;
 		initializeDevice();
 	}
 	
@@ -130,14 +133,15 @@ public class Disco implements Dispositivo{
 		try{
 			if(!arquivo.exists()){
 				if(podeEscrever()){
-					arquivo.createNewFile();
+					arquivo.createNewFile(); 
 				}else{
 					throw new MVNException(ERR_FILENOTFOUND, arquivo.getName());
 				}
 			}
-			
+			                      
 			inFile = podeLer() ? new FileInputStream(arquivo) : null;
-			outFile = podeEscrever() ? new FileOutputStream(arquivo, true) : null;
+			outFile = podeEscrever() ? new FileOutputStream(arquivo, true) : null; 
+                         
 			
 		}catch(IOException e){
 			throw new MVNException(ERR_IOERROR, arquivo.getName());
@@ -242,6 +246,7 @@ public class Disco implements Dispositivo{
 		try{
 			if(podeLer()){
 				int deviceData = inFile.read();
+                                posicao+=1;
 				return new Bits8(deviceData);
 			}else{
 				// modo de operacao inadequado
@@ -305,23 +310,31 @@ public class Disco implements Dispositivo{
 	
 	@Override
 	public Bits8 position() throws MVNException{
-		return null;
+		return new Bits8(posicao);
 	}
 	
 	
 	@Override
 	public void reset() throws MVNException{
+        
+            
 	}
 	
 	
 	@Override
 	public Bits8 size() throws MVNException{
-		return null;
+            Bits8 tamanho;
+            tamanho = new Bits8((int) arquivo.length());
+            return tamanho;
 	}
 	
 	
 	@Override
 	public Bits8 skip(Bits8 val) throws MVNException{
+            
+            
+                
 		return null;
 	}
+        
 } // Disco
