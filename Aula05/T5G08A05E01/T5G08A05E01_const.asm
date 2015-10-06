@@ -71,7 +71,7 @@ GL_BUF $ /0001
 GL_temp $ /0001
 
 GL_EOL K /000A
-GL_EOF K /FFFF
+GL_EOF K /00FF
 
 GL_counter $ /0001
 

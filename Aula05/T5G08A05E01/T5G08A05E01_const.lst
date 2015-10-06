@@ -76,7 +76,7 @@
 				;	GL_temp $ /0001
 
 801c 000a		;	GL_EOL K /000A
-801e ffff		;	GL_EOF K /FFFF
+801e 00ff		;	GL_EOF K /00FF
 
 8020 0000		;	GL_counter $ /0001   0
 				;	GL_counter $ /0001

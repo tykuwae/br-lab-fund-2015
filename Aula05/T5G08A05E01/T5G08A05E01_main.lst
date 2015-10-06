@@ -51,5 +51,8 @@ d020 9015		;			MM	GL_UL
 a022 8004		;			LD	VAL_BUF		; Param 3: tamanho do buffer
 d024 9016		;			MM	GL_BUF
 d026 a013		;			SC	GETLINEF	; Chama subrotina
-a028 c028		;	END		HM	END			; fim do programa
+a028 002c		;	    JP  position
+802a 0001		;	    K   /0001  
+802c f1fc		;	position OS /01FC
+a02e c02e		;	END		HM	END			; fim do programa
 

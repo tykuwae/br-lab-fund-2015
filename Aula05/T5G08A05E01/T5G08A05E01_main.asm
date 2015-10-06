@@ -41,6 +41,9 @@ START	LV	BUFFER 		; Param 1: endereço do buffer
 		LD	VAL_BUF		; Param 3: tamanho do buffer
 		MM	GL_BUF
 		SC	GETLINEF	; Chama subrotina
+    JP  position
+    K   /0001  
+position OS /01FC
 END		HM	END			; fim do programa
 
 # MAIN
