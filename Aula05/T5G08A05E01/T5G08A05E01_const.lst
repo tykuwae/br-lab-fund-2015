@@ -1,0 +1,141 @@
+;***** constantes *****
+2000 0000 ; "h0000>"		;	h0000 >
+2002 0000 ; "h0001>"		;	h0001 >
+2004 0000 ; "h0002>"		;	h0002 >
+2006 0000 ; "h0003>"		;	h0003 >
+2008 0000 ; "h0100>"		;	h0100 >
+200a 0000 ; "hFF00>"		;	hFF00 >
+0000 0000 ; "hFFFF>"		;	hFFFF >
+200c 0000 ; "AmLoad>"		;	AmLoad >
+200e 0000 ; "AmDownload>"		;	AmDownload >
+2010 0000 ; "AmGD>"		;	AmGD >
+
+;***** variaveis para GETLINEF() *****
+
+2012 0000 ; "GL_instr>"		;	GL_instr >
+2014 0000 ; "GL_END>"		;	GL_END >
+2016 0000 ; "GL_UL>"		;	GL_UL >
+2018 0000 ; "GL_BUF>"		;	GL_BUF >
+201a 0000 ; "GL_temp>"		;	GL_temp >
+
+201c 0000 ; "GL_EOL>"		;	GL_EOL >
+201e 0000 ; "GL_EOF>"		;	GL_EOF >
+
+;***** variaveis para PACK() *****
+2022 0000 ; "packA>"		;	packA   >
+2024 0000 ; "packB>"		;	packB   > 
+
+
+;***** variaveis para UNPACK() *****
+2026 0000 ; "unpackA>"		;	unpackA >
+2028 0000 ; "unpackB>"		;	unpackB >
+202a 0000 ; "temp>"		;	temp >
+
+;***** variaveis para STRCMP() *****
+204c 0000 ; "count>"		;	count     >  ;Resposta
+202c 0000 ; "string1>"		;	string1   >
+203c 0000 ; "string2>"		;	string2   >
+204e 0000 ; "A1>"		;	A1        >
+2050 0000 ; "B1>"		;	B1        >
+2052 0000 ; "A10>"		;	A10       >
+2054 0000 ; "B10>"		;	B10       >
+2056 0000 ; "AmEnd1>"		;	AmEnd1    >
+2058 0000 ; "AmEnd2>"		;	AmEnd2    >
+
+;***** variaveis para MEMCOPY() *****
+205a 0000 ; "numeroDeBytes>"		;	numeroDeBytes >
+205c 0000 ; "origem>"		;	origem  >
+205e 0000 ; "destino>"		;	destino >
+2060 0000 ; "countMemCopy>"		;	countMemCopy    >
+2062 0000 ; "moveMemCopy>"		;	moveMemCopy     >
+
+
+				;	& /0000
+;***** constantes *****
+8000 0000		;	h0000 K /0000
+8002 0001		;	h0001 K /0001 
+8004 0002		;	h0002 K /0002
+8006 0003		;	h0003 K /0003  
+8008 0100		;	h0100 K /0100  
+800a ff00		;	hFF00 K /FF00
+800c 8000		;	AmLoad    K /8000
+800e 9000		;	AmDownload k /9000
+8010 d000		;	AmGD    K /D000
+
+
+;***** variaveis para GETLINEF() *****
+8012 0000		;	GL_instr $ /0001   0
+				;	GL_instr $ /0001
+8014 0000		;	GL_END $ /0001   0
+				;	GL_END $ /0001
+8016 0000		;	GL_UL $ /0001   0
+				;	GL_UL $ /0001
+8018 0000		;	GL_BUF $ /0001   0
+				;	GL_BUF $ /0001
+801a 0000		;	GL_temp $ /0001   0
+				;	GL_temp $ /0001
+
+801c 000a		;	GL_EOL K /000A
+801e 00ff		;	GL_EOF K /00FF
+
+8020 0000		;	GL_counter $ /0001   0
+				;	GL_counter $ /0001
+
+;***** variaveis para PACK() *****
+8022 0000		;	packA $ /0001 ;entrada 1 de PACK      0
+				;	packA $ /0001 ;entrada 1 de PACK   
+8024 0000		;	packB $ /0001 ;entrada 2 de PACK           0
+				;	packB $ /0001 ;entrada 2 de PACK        
+
+;***** variaveis para UNPACK() *****
+8026 0000		;	unpackA $ /0001   0
+				;	unpackA $ /0001
+8028 0000		;	unpackB $ /0001   0
+				;	unpackB $ /0001
+802a 0000		;	temp $ /0001   0
+				;	temp $ /0001
+
+;***** variaveis para STRCMP() *****
+802c 0000		;	string1   $ /0008   0
+802e 0000		;	string1   $ /0008   2
+8030 0000		;	string1   $ /0008   4
+8032 0000		;	string1   $ /0008   6
+8034 0000		;	string1   $ /0008   8
+8036 0000		;	string1   $ /0008   a
+8038 0000		;	string1   $ /0008   c
+803a 0000		;	string1   $ /0008   e
+				;	string1   $ /0008
+803c 0000		;	string2   $ /0008   0
+803e 0000		;	string2   $ /0008   2
+8040 0000		;	string2   $ /0008   4
+8042 0000		;	string2   $ /0008   6
+8044 0000		;	string2   $ /0008   8
+8046 0000		;	string2   $ /0008   a
+8048 0000		;	string2   $ /0008   c
+804a 0000		;	string2   $ /0008   e
+				;	string2   $ /0008
+804c 0000		;	count     $ /0001  ;Resposta   0
+				;	count     $ /0001  ;Resposta
+804e 0000		;	A1        $ /0001   0
+				;	A1        $ /0001
+8050 0000		;	B1        $ /0001   0
+				;	B1        $ /0001
+8052 0000		;	A10       $ /0001   0
+				;	A10       $ /0001
+8054 0000		;	B10       $ /0001   0
+				;	B10       $ /0001
+a056 002c		;	AmEnd1    K string1
+a058 003c		;	AmEnd2    K string2
+
+;***** variaveis para MEMCOPY() *****
+805a 0000		;	numeroDeBytes $ /0001   0
+				;	numeroDeBytes $ /0001
+805c 0000		;	origem  $ /0001   0
+				;	origem  $ /0001
+805e 0000		;	destino $ /0001   0
+				;	destino $ /0001
+8060 0000		;	countMemCopy    $ /0001   0
+				;	countMemCopy    $ /0001
+8062 0000		;	moveMemCopy     $ /0001   0
+				;	moveMemCopy     $ /0001
+
